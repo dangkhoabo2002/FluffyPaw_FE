@@ -1,0 +1,78 @@
+.boxGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 70%;
+    margin-top: 4%;
+}
+
+img {
+    width: 538px;
+    height: 622px;
+}
+
+h1 {
+    font-family: "Itim", cursive;
+    font-weight: 400;
+    font-size: 40px;
+    font-style: normal;
+}
+
+#h1_register {
+    font-size: 36px;
+}
+
+.contentRegister>p,
+.contentLogin>p {
+    font-weight: 500;
+}
+
+.content {
+    padding-top: 32px;
+    padding-left: 160px;
+    padding-right: 160px;
+}
+
+.username,
+.password {
+    width: 290px;
+    padding-bottom: 16px;
+}
+
+.register {
+    width: 290px;
+}
+
+.animation {
+    animation: rtlImageAnimation 1s ease-in-out;
+    left: 0px;
+    top: 0%;
+}
+
+.non-animation {
+    top: 0%;
+    right: 0px;
+    animation: ltrImageAnimation 1s ease-in-out;
+
+}
+
+
+
+@keyframes rtlImageAnimation {
+    0% {
+        left: 50%;
+    }
+
+    100% {
+        left: 0px;
+    }
+}
+
+@keyframes ltrImageAnimation {
+    0% {
+        right: 50%;
+    }
+
+    100% {
+        right: 0px;
+    }
+}
