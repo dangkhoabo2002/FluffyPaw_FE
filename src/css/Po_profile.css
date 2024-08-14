@@ -1,0 +1,31 @@
+.profileContainer {
+    padding: 0px 10%;
+}
+
+.profileHeader>img {
+    object-fit: cover;
+    width: 1620px;
+    height: 500px;
+    border-radius: 12px;
+
+}
+
+.profileHeader {
+    padding-bottom: 40px;
+}
+
+.profileAvatar>img {
+    object-fit: cover;
+    width: 220px;
+    height: 220px;
+    border-radius: 100%;
+    margin-top: -30px;
+    margin-left: 100px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.profileContent {
+    height: 1000px;
+    border: 1px solid black;
+    border-radius: 12px;
+}

@@ -8,10 +8,17 @@ body {
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #F2BDCB;
+  background-color: whitesmoke;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+h1 {
+  font-family: "Itim", cursive;
+  font-weight: 400;
+  font-size: 40px;
+  font-style: normal;
 }

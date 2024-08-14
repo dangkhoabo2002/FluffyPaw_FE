@@ -1,0 +1,79 @@
+.boxGrid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    column-gap: 40px;
+    width: 70%;
+    margin-top: 4%;
+}
+
+#movementImg {
+    width: 538px;
+    height: 622px;
+}
+
+.contentRegister {
+    padding-left: 100px;
+    width: 570px;
+}
+
+#h1_register {
+    font-size: 26px;
+}
+
+.contentRegister>p,
+.contentLogin>p {
+    font-weight: 500;
+}
+
+.content {
+    padding-top: 32px;
+}
+
+.line1,
+.line2,
+.line3 {
+    display: flex;
+    width: auto;
+    padding-bottom: 16px;
+}
+
+.register {
+    width: 290px;
+}
+
+.animation {
+    z-index: 9;
+    animation: rtlImageAnimation 1s ease-in-out;
+    left: 0px;
+    top: 0%;
+}
+
+.non-animation {
+    z-index: 9;
+    top: 0%;
+    right: 0px;
+    animation: ltrImageAnimation 1s ease-in-out;
+
+}
+
+
+
+@keyframes rtlImageAnimation {
+    0% {
+        left: 50%;
+    }
+
+    100% {
+        left: 0px;
+    }
+}
+
+@keyframes ltrImageAnimation {
+    0% {
+        right: 50%;
+    }
+
+    100% {
+        right: 0px;
+    }
+}

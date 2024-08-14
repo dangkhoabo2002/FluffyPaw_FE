@@ -1,0 +1,109 @@
+.headImg>img {
+    object-fit: cover;
+    width: 1540px;
+    height: 600px;
+}
+
+.headImg {
+    top: 0px;
+    z-index: -1;
+}
+
+.titleSection {
+    text-align: left;
+    font-size: 26px;
+}
+
+.dogSection,
+.catSection {
+    width: 340px;
+    height: 170px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    background-color: white;
+    column-gap: 40px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+}
+
+.dogSection:hover,
+.catSection:hover {
+    border: 4px dashed #F2BDCB;
+}
+
+.dogSection:hover img,
+.catSection:hover img {
+    transform: rotateY(180deg);
+}
+
+.catSection>img,
+.dogSection>img {
+    width: 100px;
+    height: 100px;
+    transition: all 0.5s;
+}
+
+.container {
+    padding: 0px 10%;
+}
+
+.contentStyle {
+    object-fit: cover;
+    width: 100%;
+    height: 200px;
+}
+
+.bestDealService {
+    width: 100%;
+    height: 300px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 24px;
+}
+
+.bestDealService2 {
+    width: 100%;
+    height: 300px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 40px;
+}
+
+.serviceBox {
+    border: 1px solid black;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    column-gap: 20px;
+    padding: 24px;
+}
+
+.serviceBox>img {
+    width: 250px;
+    height: 200px;
+    border: 1px dashed rgb(176, 175, 175);
+}
+
+
+#serviceDescription {
+    width: 280px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+}
+
+.bookingButton {
+    background-color: #ff7fa1;
+}
+
+.bookingButton:hover {
+    background-color: #ff7fa1;
+
+}

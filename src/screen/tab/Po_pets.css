@@ -1,0 +1,14 @@
+.petCard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid black;
+    border-radius: 12px;
+    width: 460px;
+    height: 200px;
+}
+
+.petCard>img {
+    width: 200px;
+    height: 180px;
+    object-fit: cover;
+}

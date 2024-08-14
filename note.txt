@@ -1,13 +1,16 @@
 env:
 
 react + tailwind + ant design + heroicons + headlessUI
+===========================================================
+heroicons: import { AcademicCapIcon } from "@heroicons/react/24/outline"; -> đổi theo /outline để có loại icon đó
+
+===========================================================
 
 font:  
 
 font-family: "Itim", cursive;
   font-weight: 400;
   font-style: normal;
-
 
 // <uniquifier>: Use a unique and descriptive class name
 // <weight>: Use a value from 100 to 900
@@ -18,3 +21,9 @@ font-family: "Itim", cursive;
   font-weight: <weight>;
   font-style: normal;
 }
+
+===========================================================
+
+main color: #F2BDCB
+
+link form antdes: https://ant.design/components/form
