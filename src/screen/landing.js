@@ -3,7 +3,7 @@ import { Carousel, Button } from "antd";
 
 import Navbar from "../component/petowner/navbar";
 import "../css/landing.css";
-import headImg from "../asset/cat_wall_peeking_150278_1920x1080.jpg";
+import headImg from "../asset/wallhaven-4vgogl_1920x1080.png";
 import carouselImg1 from "../asset/wallhaven-4l823l_3840x1080.png";
 export default function landing() {
   return (
