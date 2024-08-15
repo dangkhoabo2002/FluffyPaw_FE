@@ -1,5 +1,6 @@
 .profileContainer {
     padding: 0px 10%;
+    
 }
 
 .profileHeader>img {
@@ -26,6 +27,6 @@
 
 .profileContent {
     height: 1000px;
-    border: 1px solid black;
     border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }

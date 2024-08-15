@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import PoProfile from "./screen/Po_profile";
 import Login from "./screen/login&register";
 import LandingPage from "./screen/landing";
+import PetDetail from "./screen/Po_petDetail";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<LandingPage />}></Route>
         <Route path="/po_profile" element={<PoProfile />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/po_profile/po_petdetail" element={<PetDetail />}></Route>
       </Routes>
     </div>
   );
