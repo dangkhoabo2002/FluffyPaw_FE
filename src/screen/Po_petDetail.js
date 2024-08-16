@@ -37,7 +37,7 @@ export default function profile() {
             <Tabs.TabPane tab="Hồ sơ bệnh lý" key="2">
               <PetMedical />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Hồ sơ tiêm phòng" key="3">
+            <Tabs.TabPane tab="Hồ sơ bệnh lý - Đã nhập" key="3">
               <PetVaccine />
             </Tabs.TabPane>
             <Tabs.TabPane tab="Thêm nhắc nhở" key="4">
