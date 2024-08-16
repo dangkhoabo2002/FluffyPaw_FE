@@ -1,7 +1,7 @@
 import React from "react";
 import "./Po_petDetail_information.css";
 import { Button } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 
 export default function Po_petDetail_infomation() {
   return (
@@ -19,7 +19,7 @@ export default function Po_petDetail_infomation() {
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Juvenile_Ragdoll.jpg/800px-Juvenile_Ragdoll.jpg"
           />
         </div>
-        <Button type="primary" icon={<SearchOutlined />}>
+        <Button type="primary" icon={<EditOutlined />}>
           Thay đổi ảnh
         </Button>
         <div>
@@ -34,7 +34,7 @@ export default function Po_petDetail_infomation() {
             src="https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
           />
         </div>
-        <Button type="primary" icon={<SearchOutlined />}>
+        <Button type="primary" icon={<EditOutlined />}>
           Thay đổi ảnh
         </Button>
       </div>
@@ -95,6 +95,12 @@ export default function Po_petDetail_infomation() {
         </div>
         <div className="lineInfo">
           <div className="iconInfo">
+            <h1>Hành vi đặc biệt</h1>
+          </div>
+          <div className="contentInfo">Hay đe dọa người lạ</div>
+        </div>
+        <div className="lineInfo">
+          <div className="iconInfo">
             <h1>Tính cách</h1>
           </div>
           <div className="contentInfo">Hiếu khách</div>
@@ -110,6 +116,11 @@ export default function Po_petDetail_infomation() {
             khác Rất ghét các con mèo khác{" "}
           </div>
         </div>
+      </div>
+      <div>
+        <Button>Thay đổi chủ nhân</Button>
+        <Button>Ẩn thông tin thú cưng</Button>
+        <Button>Xóa hồ sơ</Button>
       </div>
     </div>
   );
