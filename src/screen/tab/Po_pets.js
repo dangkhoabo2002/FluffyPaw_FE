@@ -1,9 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Po_pets.css";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { Modal, Radio, Input, Form, Button } from "antd";
+
+import UploadImg from "./Component_upload_image";
 
 export default function Po_pets() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const [value, setValue] = useState(1);
+
+  const onChange = (e: RadioChangeEventEvent) => {
+    console.log("radio checked", e.target.value);
+    setValue(e.target.value);
+  };
+
+  const [form] = Form.useForm();
+
   return (
     <>
       <div className="flex flex-col px-20 ">
@@ -21,7 +47,10 @@ export default function Po_pets() {
                 </svg>
               </div>
             </div>
-            <button class="addPet block text-black text-sm shadow-border bg-blue text-sm py-3 px-4 font-sans tracking-wide font-bold items-center">
+            <button
+              onClick={showModal}
+              class="addPet block text-black text-sm shadow-border bg-blue text-sm py-3 px-4 font-sans tracking-wide font-bold items-center"
+            >
               Thêm thú cưng mới
             </button>
           </div>
@@ -32,6 +61,29 @@ export default function Po_pets() {
             <div className="petCard">
               <div className="petIcon">
                 <img
+                  className="scale-x-[-1]"
+                  alt="dogIcon"
+                  src="https://cdn4.vectorstock.com/i/1000x1000/82/13/dog-outline-icon-graphics-vector-47088213.jpg"
+                />
+                <div id="petName">Labubu</div>
+              </div>
+
+              <div className="flex flex-start flex-col">
+                <p>Sở thích: Gặm cỏ</p>
+                <p>Giống: Cái</p>
+                <p>Cân nặng: 5 kg</p>
+                <div className="inline-flex gap-2 text-green-600 py-4">
+                  <CheckCircleIcon class="h-6 w-6 text-green-600" />
+                  Đã tiêm chủng
+                </div>
+              </div>
+            </div>
+          </Link>
+          <Link to={`/po_profile/po_petdetail`}>
+            <div className="petCard">
+              <div className="petIcon">
+                <img
+                  className="scale-x-[-1]"
                   alt="dogIcon"
                   src="https://cdn4.vectorstock.com/i/1000x1000/82/13/dog-outline-icon-graphics-vector-47088213.jpg"
                 />
@@ -50,7 +102,96 @@ export default function Po_pets() {
             </div>
           </Link>
         </div>
+
+        <h1 className="py-12">Mèo</h1>
+        <div className="flex flex-wrap justify-between gap-y-12	">
+          <Link to={`/po_profile/po_petdetail`}>
+            <div className="petCard">
+              <div className="petIcon">
+                <img
+                  alt="dogIcon"
+                  src="https://logowik.com/content/uploads/images/cat8600.jpg"
+                />
+                <div id="petName">Labubu</div>
+              </div>
+
+              <div className="flex flex-start flex-col">
+                <p>Sở thích: Gặm cỏ</p>
+                <p>Giống: Cái</p>
+                <p>Cân nặng: 5 kg</p>
+                <div className="inline-flex gap-2 text-green-600 py-4">
+                  <CheckCircleIcon class="h-6 w-6 text-green-600" />
+                  Đã tiêm chủng
+                </div>
+              </div>
+            </div>
+          </Link>
+        </div>
       </div>
+      {/* --------------- Add Pet Modal --------------- */}
+      <Modal
+        title="Thêm thú cưng"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        width={500}
+      >
+        <Form
+          layout={"horizontal"}
+          form={form}
+          name="basic"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 14 }}
+          style={{ maxWidth: 600 }}
+        >
+          <UploadImg/>
+          <Form.Item label="Giống loài">
+            <Radio.Group onChange={onChange} value={value}>
+              <Radio value={1}>Chó</Radio>
+              <Radio value={2}>Mèo</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item label="Tên của thú cưng">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="Giới tính">
+            <Radio.Group onChange={onChange} value={value}>
+              <Radio value={1}>Đực</Radio>
+              <Radio value={2}>Cái</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item label="Giống">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="Cân nặng">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="Tuổi">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="Ngày sinh">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="Mã số chip">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="Chế độ ăn uống">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="Hành vi đặc biệt">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="Tính cách">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item label="Ghi chú">
+            <Input placeholder="input placeholder" />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary">Submit</Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 }

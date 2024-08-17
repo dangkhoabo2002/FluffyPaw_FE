@@ -29,11 +29,14 @@
   top: 0px;
   left: 0px;
   width: auto;
-  background-color: #FDCEDF;
+  background-color: #fdcedf;
   border-radius: 0px 12px 12px 0px;
   padding: 1px 16px 1px 12px;
 }
 
-.addPet:hover{
-    background-color: #f7a0c0;
+.addPet:hover {
+  background-color: #f7a0c0;
+}
+
+.catIcon {
 }

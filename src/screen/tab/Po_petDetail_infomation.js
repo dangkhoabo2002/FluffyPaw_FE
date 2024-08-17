@@ -77,7 +77,13 @@ export default function Po_petDetail_infomation() {
         </div>
         <div className="lineInfo">
           <div className="iconInfo">
-            <h1>Ngày sinh/ Ngày nhận nuôi</h1>
+            <h1>Ngày sinh</h1>
+          </div>
+          <div className="contentInfo">24/05/2022</div>
+        </div>
+        <div className="lineInfo">
+          <div className="iconInfo">
+            <h1>Ngày nhận nuôi</h1>
           </div>
           <div className="contentInfo">24/05/2022</div>
         </div>
