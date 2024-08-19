@@ -22,7 +22,7 @@ export default function Navbar() {
       <div className="flex flex-col">
         {/* Thông báo đặt lịch */}
         <div className="flex flex-row gap-4 items-center rounded-lg px-4 py-2 hover:bg-[#F0EBE3]">
-          <img className="rounded-full w-12 h-10" src={Logo1}></img>
+          <img alt="Logo" className="rounded-full w-12 h-10" src={Logo1}></img>
           <p style={{ fontSize: "12px" }}>
             Bạn đã thành công đặt lịch tại Pet Store vào lúc 20:43 - Ngày
             16/08/2024
@@ -31,7 +31,11 @@ export default function Navbar() {
 
         {/* Thông báo đặt lịch */}
         <div className="flex flex-row gap-4 items-center rounded-lg px-4 py-2 hover:bg-[#F0EBE3]">
-          <img className="rounded-full w-14 h-12 pl-1" src={Vaccine}></img>
+          <img
+            alt="vaccine"
+            className="rounded-full w-14 h-12 pl-1"
+            src={Vaccine}
+          ></img>
           <p style={{ fontSize: "12px" }}>
             Bé cún Labubu sẽ có lịch tiêm vaccine vào ngày 16/08/2024
           </p>
