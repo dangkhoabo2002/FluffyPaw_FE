@@ -77,7 +77,13 @@ export default function Po_petDetail_infomation() {
         </div>
         <div className="lineInfo">
           <div className="iconInfo">
-            <h1>Ngày sinh/ Ngày nhận nuôi</h1>
+            <h1>Ngày sinh</h1>
+          </div>
+          <div className="contentInfo">24/05/2022</div>
+        </div>
+        <div className="lineInfo">
+          <div className="iconInfo">
+            <h1>Ngày nhận nuôi</h1>
           </div>
           <div className="contentInfo">24/05/2022</div>
         </div>
@@ -86,6 +92,12 @@ export default function Po_petDetail_infomation() {
             <h1>Mã số chip</h1>
           </div>
           <div className="contentInfo">Không có</div>
+        </div>
+        <div className="lineInfo">
+          <div className="iconInfo">
+            <h1>Đã triệt sản hay chưa</h1>
+          </div>
+          <div className="contentInfo">Đã triệt sản</div>
         </div>
         <div className="lineInfo">
           <div className="iconInfo">

@@ -29,11 +29,11 @@ export default function profile() {
         </div>
         <div className="profileContent">
           <Tabs size="large" defaultActiveKey="1" centered>
-            <Tabs.TabPane tab="Thông tin cá nhân" key="tab1">
-              <ProfileTab />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="Thông tin thú cưng" key="tab2">
+            <Tabs.TabPane tab="Thông tin thú cưng" key="tab1">
               <PetTab />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Thông tin cá nhân" key="tab2">
+              <ProfileTab />
             </Tabs.TabPane>
             <Tabs.TabPane tab="Lịch sử" key="tab3">
               <div>Thiss isss</div>
