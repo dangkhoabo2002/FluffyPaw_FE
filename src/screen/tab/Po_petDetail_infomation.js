@@ -95,6 +95,12 @@ export default function Po_petDetail_infomation() {
         </div>
         <div className="lineInfo">
           <div className="iconInfo">
+            <h1>Đã triệt sản hay chưa</h1>
+          </div>
+          <div className="contentInfo">Đã triệt sản</div>
+        </div>
+        <div className="lineInfo">
+          <div className="iconInfo">
             <h1>Chế độ ăn uống</h1>
           </div>
           <div className="contentInfo">Bình thường</div>
