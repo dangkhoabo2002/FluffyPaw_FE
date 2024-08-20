@@ -20,6 +20,7 @@ import {
   ArrowLeftOutlined,
 } from "@ant-design/icons";
 import { MapPinIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 const { Title } = Typography;
 
@@ -29,6 +30,10 @@ export default function Login() {
   const [step, setStep] = useState(0);
 
   const onChangeRemember = (e) => {
+    console.log(`checked = ${e.target.checked}`);
+  };
+
+  const onChangeToP = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
 
@@ -67,7 +72,7 @@ export default function Login() {
   };
   return (
     <>
-      <div className="flex justify-center">
+      <div className="flex justify-center pt-12">
         <div className="boxLogin bg-white rounded-3xl overflow-hidden relative pl-6">
           <div
             className={
@@ -119,7 +124,9 @@ export default function Login() {
                     style={{ borderColor: "#7cb305", fontFamily: "Itim" }}
                     plain
                   >
-                    Fluffy Paw
+                    <Link to={`/`} className="hover:text-pink-400">
+                      Fluffy Paw
+                    </Link>{" "}
                   </Divider>
                 </div>
                 <Button className="register" onClick={handleRegisterClick}>
@@ -209,7 +216,7 @@ export default function Login() {
                   <div className="line1">
                     <div className="flex flex-row justify-between items-center">
                       <Title level={5} className="pb-1">
-                        Hoàn thành thông tin cơ bản nhé!
+                        Thiết lập tài khoản.
                       </Title>
                       <Button
                         className="w-10 mt-[-13px]"
@@ -269,7 +276,7 @@ export default function Login() {
                   <div className="line1">
                     <div className="flex flex-row justify-between items-center">
                       <Title level={5} className="pb-1">
-                        Thông tin có thể bỏ qua.
+                        Thông tin của bạn.
                       </Title>
                       <Button
                         className="w-10 mt-[-13px]"
@@ -281,26 +288,15 @@ export default function Login() {
                     </div>
 
                     <Input
-                      size="medium"
+                      size="large"
                       placeholder="Họ và tên"
                       prefix={<UserOutlined />}
                     />
                     <Input
                       size="large"
-                      placeholder="Email"
-                      prefix={<MailOutlined />}
+                      placeholder="Địa chỉ nơi ở / Nơi thú cưng ở"
+                      prefix={<MapPinIcon class="h-5 w-4" />}
                     />
-                    <div className="flex flex-row justify-between items-center">
-                      <DatePicker
-                        onChange={onChangeDate}
-                        placeholder="Ngày sinh"
-                      />
-                      <Radio.Group onChange={onChangeSex} value={sex}>
-                        <Radio value={1}>Nam</Radio>
-                        <Radio value={2}>Nữ</Radio>
-                        <Radio value={3}>Khác</Radio>
-                      </Radio.Group>
-                    </div>
                   </div>
                   <div className="flex flex-col text-left gap-6">
                     <Button
@@ -356,11 +352,6 @@ export default function Login() {
                     </div>
 
                     <Input
-                      size="medium"
-                      placeholder="Địa chỉ nơi ở / Nơi thú cưng ở"
-                      prefix={<MapPinIcon class="h-5 w-4" />}
-                    />
-                    <Input
                       size="large"
                       placeholder="Email"
                       prefix={<MailOutlined />}
@@ -376,6 +367,23 @@ export default function Login() {
                         <Radio value={3}>Khác</Radio>
                       </Radio.Group>
                     </div>
+                    <Checkbox className="items-start" onChange={onChangeToP}>
+                      Tôi đồng ý với những{" "}
+                      <Link
+                        to={`/`}
+                        className="text-blue-400 font-semibold pr-1"
+                      >
+                        điều khoản
+                      </Link>
+                      và
+                      <Link
+                        to={`/`}
+                        className="text-blue-400 font-semibold px-1"
+                      >
+                        thỏa thuận
+                      </Link>
+                      của ứng dụng Fluffy Paw.
+                    </Checkbox>
                   </div>
                   <div className="flex flex-col text-left gap-6">
                     <div>
@@ -407,7 +415,9 @@ export default function Login() {
                     style={{ borderColor: "#7cb305", fontFamily: "Itim" }}
                     plain
                   >
-                    Fluffy Paw
+                    <Link to={`/`} className="hover:text-pink-400">
+                      Fluffy Paw
+                    </Link>
                   </Divider>
                 </div>
                 <div className="">
