@@ -1,24 +1,29 @@
+import { Disclosure } from "@headlessui/react";
 import {
-  Disclosure,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-} from "@headlessui/react";
-import { BellIcon } from "@heroicons/react/24/outline";
+  BellIcon,
+  CalendarDaysIcon,
+  UserIcon,
+  UserCircleIcon,
+} from "@heroicons/react/24/outline";
 import Search from "../search";
 import Logo from "../petowner/logo.png";
 import Logo1 from "../petowner/logo1.png";
 import Vaccine from "../petowner/vaccine.png";
+import Wallet from "../petowner/wallet.png";
+import Logout from "../petowner/logout.png";
+import Info from "../petowner/information.png";
 import { Link } from "react-router-dom";
 import "../petowner/navbar.css";
 import { Popover } from "antd";
-import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 
 export default function Navbar() {
-  const content = (
+  const notification = (
     <div style={{ width: "300px" }}>
-      <h1 style={{ fontSize: "24px", paddingBottom: "14px" }}>Thông báo</h1>
+      <h1
+        style={{ fontSize: "24px", paddingBottom: "14px", paddingLeft: "18px" }}
+      >
+        Thông báo
+      </h1>
       <div className="flex flex-col">
         {/* Thông báo đặt lịch */}
         <div className="flex flex-row gap-4 items-center rounded-lg px-4 py-2 hover:bg-[#F0EBE3]">
@@ -29,7 +34,7 @@ export default function Navbar() {
           </p>
         </div>
 
-        {/* Thông báo đặt lịch */}
+        {/* Thông báo nhắc tiêm vaccine */}
         <div className="flex flex-row gap-4 items-center rounded-lg px-4 py-2 hover:bg-[#F0EBE3]">
           <img className="rounded-full w-14 h-12 pl-1" src={Vaccine}></img>
           <p style={{ fontSize: "12px" }}>
@@ -37,6 +42,38 @@ export default function Navbar() {
           </p>
         </div>
         <p></p>
+      </div>
+    </div>
+  );
+
+  const content = (
+    <div style={{ width: "240px" }}>
+      <div className="flex flex-col">
+        {/* Thông tin cá nhân */}
+        <Link to={"/po_profile"} className="hover:text-pink-500">
+          <div className="flex flex-row gap-4 items-center rounded-lg px-2 py-2 hover:bg-[#F0EBE3]">
+            <img className="rounded-full w-7 h-5 pl-2" src={Info}></img>
+            <h1 style={{ fontSize: "16px", paddingLeft: "6px" }}>
+              Thông tin cá nhân
+            </h1>
+          </div>
+        </Link>
+
+        {/* Ví tiền */}
+        <Link to={"/po_wallet"} className="hover:text-pink-500">
+          <div className="flex flex-row gap-4 items-center rounded-lg px-2 py-2 hover:bg-[#F0EBE3]">
+            <img className="rounded-full w-8 h-6 pl-1" src={Wallet}></img>
+            <h1 style={{ fontSize: "16px", paddingLeft: "6px" }}>Ví tiền</h1>
+          </div>
+        </Link>
+
+        {/* Đăng xuất */}
+        <Link to={"/login"} className="hover:text-pink-500">
+          <div className="flex flex-row gap-4 items-center rounded-lg px-2 py-2 hover:bg-[#F0EBE3]">
+            <img className="rounded-full w-9 h-8 pl-1" src={Logout}></img>
+            <h1 style={{ fontSize: "16px" }}>Đăng xuất</h1>
+          </div>
+        </Link>
       </div>
     </div>
   );
@@ -57,7 +94,7 @@ export default function Navbar() {
               <div className="flex space-x-4">
                 <button
                   type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="relative rounded-full shadow-lg p-1 text-gray-400 hover:text-pink-400 hover:bg-white focus:bg-white "
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
@@ -69,53 +106,24 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <Popover content={content} trigger="click">
+          <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0 gap-4">
+            <Popover content={notification} trigger="click">
               <button
                 type="button"
-                className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                className="relative rounded-full shadow-lg p-1 text-gray-400 hover:text-pink-400 hover:bg-white focus:bg-white "
               >
                 <BellIcon aria-hidden="true" className="h-6 w-6" />
               </button>
             </Popover>
             {/* Profile dropdown */}
-            <Menu as="div" className="relative ml-3">
-              <div>
-                <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    alt="avatar"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    className="h-8 w-8 rounded-full"
-                  />
-                </MenuButton>
-              </div>
-              <MenuItems
-                transition
-                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+            <Popover content={content} trigger="click">
+              <button
+                type="button"
+                className="relative rounded-full shadow-lg p-1 hover:text-pink-400 hover:bg-white focus:bg-white "
               >
-                <Link to={`/po_profile`}>
-                  <MenuItem>
-                    <span className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
-                      Your Profile
-                    </span>
-                  </MenuItem>
-                </Link>
-                <Link to={`/login`}>
-                  <MenuItem>
-                    <span className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
-                      Login
-                    </span>
-                  </MenuItem>
-                </Link>
-                <MenuItem>
-                  <span className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100">
-                    Sign out
-                  </span>
-                </MenuItem>
-              </MenuItems>
-            </Menu>
+                <UserIcon class="h-6 w-6 text-gray-400" />
+              </button>
+            </Popover>
           </div>
         </div>
       </div>
