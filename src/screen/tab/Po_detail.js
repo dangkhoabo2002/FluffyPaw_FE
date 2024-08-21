@@ -68,7 +68,6 @@ export default function Po_detail() {
                 <div className="inline-flex gap-4">
                   <p>Ẩn thông tin cá nhân:</p> <Switch />
                 </div>
-                <p>Là thành viên từ ngày 20/09/2024</p>
                 <Button>Thay đổi mật khẩu</Button>
                 <Button>Rút tiền</Button>
                 <Button>Thay đổi thông tin</Button>

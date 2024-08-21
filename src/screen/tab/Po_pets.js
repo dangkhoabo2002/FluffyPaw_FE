@@ -67,7 +67,7 @@ export default function Po_pets() {
             </div>
             <button
               onClick={showModal}
-              class="addPet block text-black text-sm shadow-border bg-blue text-sm py-3 px-4 font-sans tracking-wide font-bold items-center"
+              class="addPet block text-black shadow-border bg-blue text-sm py-3 px-4 font-sans tracking-wide font-bold items-center"
             >
               Thêm thú cưng mới
             </button>
