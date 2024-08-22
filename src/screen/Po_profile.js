@@ -16,14 +16,21 @@ export default function profile() {
             alt="profileBackground"
             src="https://w.wallhaven.cc/full/zy/wallhaven-zyj8gw.jpg"
           />
-          <div className="profileAvatar flex flex-row ">
-            <img
-              alt="avatar"
-              src="https://www.usatoday.com/gcdn/presto/2023/07/10/USAT/aee85bb0-b58f-4d28-bc08-f0e68d79a230-cat_years.png?crop=2949,1922,x432,y212"
-            />
-            <div className="flex flex-col pl-10 pt-8">
-              <h1>Tên người dùng</h1>
-              <p className="text-gray-400">Người sở hữu thú cưng</p>
+          <div className="flex flex-row justify-between pr-10 items-center">
+            <div className="profileAvatar flex flex-row">
+              <img
+                alt="avatar"
+                src="https://www.usatoday.com/gcdn/presto/2023/07/10/USAT/aee85bb0-b58f-4d28-bc08-f0e68d79a230-cat_years.png?crop=2949,1922,x432,y212"
+              />
+              <div className="flex flex-col pl-10 pt-8">
+                <h1>Tên người dùng</h1>
+                <p className="text-gray-400">Người sở hữu thú cưng</p>
+              </div>
+            </div>
+            <div className="card">
+              <p className="card1">
+                <p>Mỗi người đều có hạnh phúc riêng, thú cưng cũng thế.</p>
+              </p>
             </div>
           </div>
         </div>

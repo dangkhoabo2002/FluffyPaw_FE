@@ -53,7 +53,6 @@ export default function Po_petDetail_vaccine() {
             <p className="text-[#808080]">Loại bệnh: 4 bệnh ở mèo FCV </p>
             <p className="pt-12">Nơi tiêm chủng: Phòng khám</p>
             <p>Tên Phòng Khám: Pet Land</p>
-            <p>Địa chỉ: 613 Điện Biên Phủ, P.25 Q.Bình Thạnh, HCM.</p>
           </div>
           <div className="flex flex-col justify-between pt-4 pb-10 pl-6 items-center">
             <p className="text-[#808080]">24/02/2002</p>
@@ -83,7 +82,6 @@ export default function Po_petDetail_vaccine() {
             <p className="text-[#808080]">Loại bệnh: 4 bệnh ở mèo FCV </p>
             <p className="pt-12">Nơi tiêm chủng: Phòng Khám</p>
             <p>Tên Phòng Khám: Pet Land</p>
-            <p>Địa chỉ: 613 Điện Biên Phủ, P.25 Q.Bình Thạnh, HCM.</p>
           </div>
           <div className="flex flex-col justify-between pt-4 pb-10 pl-6 items-center">
             <p className="text-[#808080]">24/02/2002</p>
@@ -101,7 +99,7 @@ export default function Po_petDetail_vaccine() {
           okText="Đóng"
           cancelText="Xóa thông tin"
         >
-          <div className="flex flex-row pt-4">
+          <div className="flex flex-row pt-4 px-4">
             <div className="flex flex-col justify-left pt-10">
               <ul class="list-disc ">
                 <p className="font-bold">
@@ -124,14 +122,34 @@ export default function Po_petDetail_vaccine() {
               />
             </div>
           </div>
-          <div className="flex flex-col pt-10">
-            <p>Cân nặng : 5kg </p>
-            <p>Nhiệt độ : 38,2 *C</p>
-            <p>Ngày tiêm chủng: 29/02/2023</p>
-            <p>Ngày tái chủng: 29/02/2024</p>
-            <p>Nơi tiêm chủng: Phòng Khám</p>
-            <p>Tên Phòng Khám: Pet Land</p>
-            <p>Địa chỉ: 613 Điện Biên Phủ, P.25 Q.Bình Thạnh, HCM.</p>
+          <div className="flex flex-row justify-between items-center px-4">
+            <div className="flex flex-row">
+              <div className="flex flex-col pt-10 font-bold gap-1">
+                <p>Cân nặng :</p>
+                <p>Nhiệt độ : </p>
+                <p>Ngày tiêm : </p>
+                <p>Ngày tái chủng: </p>
+                <p>Nơi tiêm: </p>
+                <p>Phòng Khám: </p>
+                <p>Địa chỉ:</p>
+              </div>
+              <div className="flex flex-col pl-4 pt-10 w-[200px] gap-2">
+                <p> 5kg </p>
+                <p>38,2 *C</p>
+                <p> 29/02/2023</p>
+                <p> 29/02/2024</p>
+                <p> Phòng Khám</p>
+                <p> Pet Land</p>
+                <p> 613 Điện Biên Phủ, P.25 Q.Bình Thạnh, HCM.</p>
+              </div>
+            </div>
+            <div className="flex flex-col pt-10">
+              <h2 className="font-bold pb-1">Hình ảnh minh chứng:</h2>
+              <img
+                alt="evidence"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMeELX4RfSJDmFhOX-fNJNt7spTK1m6XTxVA&s"
+              />
+            </div>
           </div>
         </Modal>
       </div>

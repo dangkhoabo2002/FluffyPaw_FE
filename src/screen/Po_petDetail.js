@@ -1,12 +1,14 @@
 import React from "react";
 
 import Navbar from "../component/petowner/navbar";
-import { Tabs } from "antd";
+import { Tabs, Button } from "antd";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import PetProfile from "../screen/tab/Po_petDetail_infomation";
 import PetMedical from "../screen/tab/Po_petDetail_medical";
 import PetVaccine from "../screen/tab/Po_petDetail_vaccine";
 import PetReminder from "../screen/tab/Po_petDetail_reminder";
 import "../css/Po_profile.css";
+import { Link } from "react-router-dom";
 
 export default function profile() {
   return (
@@ -30,17 +32,41 @@ export default function profile() {
           </div>
         </div>
         <div className="profileContent py-10">
+          <div className="pb-10 pl-6">
+            <Link to={`/po_profile`}>
+              <Button
+                size="large"
+                shape="round"
+                icon={<ArrowLeftIcon class="h-4 w-4 text-gray-500" />}
+                className="text-gray-500"
+              >
+                Quay lại
+              </Button>
+            </Link>
+          </div>
           <Tabs size="large" defaultActiveKey="1" tabPosition="left">
-            <Tabs.TabPane tab="Thông tin của bé" key="1">
+            <Tabs.TabPane
+              tab={<h1 className="text-[20px]">Thông tin của bé</h1>}
+              key="1"
+            >
               <PetProfile />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Hồ sơ bệnh lý" key="2">
+            <Tabs.TabPane
+              tab={<h1 className="text-[20px]">Hồ sơ bệnh lý</h1>}
+              key="2"
+            >
               <PetMedical />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Hồ sơ bệnh lý - Đã nhập" key="3">
+            <Tabs.TabPane
+              tab={<h1 className="text-[20px]">Hồ sơ bệnh lý - Đã nhập</h1>}
+              key="3"
+            >
               <PetVaccine />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Thêm nhắc nhở" key="4">
+            <Tabs.TabPane
+              tab={<h1 className="text-[20px]">Nhắc nhở</h1>}
+              key="4"
+            >
               <PetReminder />
             </Tabs.TabPane>
           </Tabs>
