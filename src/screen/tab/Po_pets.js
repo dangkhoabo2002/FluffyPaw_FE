@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Po_pets.css";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-import { Modal, Radio, Input, Form, Button, Select } from "antd";
+import { Modal, Radio, Input, Form, Select } from "antd";
 
 import UploadImg from "./Component_upload_image";
 
