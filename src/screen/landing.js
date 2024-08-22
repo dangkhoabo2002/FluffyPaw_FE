@@ -225,9 +225,7 @@ export default function landing() {
                 <br />
                 <h1 className="text-[32px]">Dịch vụ</h1>
                 <br />
-                <div className="name">
-                  Đi dạo - Trông giữ - Khách sạn
-                </div>
+                <div className="name">Đi dạo - Trông giữ - Khách sạn</div>
               </div>
             </div>
           </div>
