@@ -52,6 +52,7 @@ export default function Landing() {
 
   const [value, setValue] = useState(1);
   const [valueSex, setvalueSex] = useState(1);
+  const [isSterilized, setIsSterilized] = useState(1);
 
   const onChange = (e: RadioChangeEventEvent) => {
     console.log("radio checked", e.target.value);
@@ -61,6 +62,11 @@ export default function Landing() {
   const onChangeSex = (e: RadioChangeEventEvent) => {
     console.log("radio checked", e.target.value);
     setvalueSex(e.target.value);
+  };
+
+  const onChangeSterilized = (e: RadioChangeEventEvent) => {
+    console.log("radio checked", e.target.value);
+    setIsSterilized(e.target.value);
   };
 
   const [form] = Form.useForm();
@@ -321,6 +327,7 @@ export default function Landing() {
       <Modal
         open={open}
         title="Bạn có muốn lưu trữ hồ sơ thú cưng?"
+        onCancel={handleCancel}
         footer={(_, {}) => (
           <>
             <Button type="primary" onClick={openAddPet}>
@@ -341,6 +348,7 @@ export default function Landing() {
         title="Thêm thú cưng"
         open={isModalOpen}
         width={500}
+        onCancel={handleCancelForm}
         footer={(_, {}) => (
           <>
             <Button onClick={handleCancelForm}>Hủy bỏ</Button>
@@ -374,6 +382,12 @@ export default function Landing() {
             <Radio.Group onChange={onChangeSex} value={valueSex}>
               <Radio value={"male"}>Đực</Radio>
               <Radio value={"felmale"}>Cái</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item label="Đã triệt sản chưa">
+            <Radio.Group onChange={onChangeSterilized} value={valueSex}>
+              <Radio value={"sterilized"}>Rồi</Radio>
+              <Radio value={"notSterilized"}>Chưa</Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item label="Giống">

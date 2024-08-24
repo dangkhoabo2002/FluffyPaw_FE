@@ -6,6 +6,7 @@ import Login from "./screen/login&register";
 import LandingPage from "./screen/landing";
 import PetDetail from "./screen/Po_petDetail";
 import PoWallet from "./screen/Po_wallet";
+import NavUnsign from "./component/unlog_navbar";
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
         <Route path="/po_profile" element={<PoProfile />}></Route>
         <Route path="/po_profile/po_petdetail" element={<PetDetail />}></Route>
         <Route path="/po_wallet" element={<PoWallet />}></Route>
+
+        {/* Test */}
+        <Route path="/testabc" element={<NavUnsign />}></Route>
       </Routes>
     </div>
   );
