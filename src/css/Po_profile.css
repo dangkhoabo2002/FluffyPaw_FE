@@ -2,7 +2,7 @@
   padding: 0px 10%;
 }
 
-.profileHeader > img {
+.profileHeader>img {
   object-fit: cover;
   width: 1620px;
   height: 500px;
@@ -13,7 +13,7 @@
   padding-bottom: 40px;
 }
 
-.profileAvatar > img {
+.profileAvatar>img {
   object-fit: cover;
   width: 220px;
   height: 220px;
@@ -24,7 +24,7 @@
 }
 
 .profileContent {
-  height: 1000px;
+  height: 1150px;
   border-radius: 12px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }

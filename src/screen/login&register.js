@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import "../css/login&register.css";
 
 import {
@@ -19,11 +18,15 @@ import {
   ArrowLeftOutlined,
 } from "@ant-design/icons";
 import { MapPinIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import axios from "axios";
 
 const { Title } = Typography;
 
 export default function Login() {
+  const navigate = useNavigate();
+
   // ------ Step 1
   const [submitGmail, setSubmitGmail] = useState(false);
   const [step, setStep] = useState(0);
@@ -49,6 +52,7 @@ export default function Login() {
   const sharedProps = {
     onChangeOTP,
   };
+
   //------------------
 
   const onFinish = (values) => {
@@ -69,6 +73,38 @@ export default function Login() {
     console.log("radio checked", e.target.value);
     setSex(e.target.value);
   };
+
+  // ---------- API Login -----------
+
+  const [login, setLogin] = useState({
+    user_username: "",
+    user_password: "",
+  });
+
+  const onChangeLogin = (prop) => (event) => {
+    setLogin({ ...login, [prop]: event.target.value });
+    // console.log("us", login.user_username);
+  };
+
+  const handleLogin = (us, pw) => {
+    axios
+      .post("https://fluffypaw.azurewebsites.net/api/Authentication/Login", {
+        username: us,
+        password: pw,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          const dataLog = response.data;
+          console.log(dataLog.data.token);
+          localStorage.setItem("access_token", dataLog.data.token);
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <>
       <div className="flex justify-center pt-12">
@@ -102,6 +138,8 @@ export default function Login() {
                   <Input
                     size="large"
                     placeholder=" Nhập tên đăng nhập của bạn"
+                    value={login.user_username}
+                    onChange={onChangeLogin("user_username")}
                     prefix={<UserOutlined />}
                   />
                 </div>
@@ -109,6 +147,9 @@ export default function Login() {
                   <Input
                     size="large"
                     placeholder=" Nhập mật khẩu của bạn"
+                    type="password"
+                    value={login.user_password}
+                    onChange={onChangeLogin("user_password")}
                     prefix={<KeyOutlined />}
                   />
                 </div>
@@ -116,9 +157,19 @@ export default function Login() {
                   Ghi nhớ tài khoản.
                 </Checkbox>
                 <div className="flex flex-col text-left gap-6">
-                  <Button type="primary">Đăng nhập</Button>
+                  <Button
+                    type="primary"
+                    onClick={() =>
+                      handleLogin(login.user_username, login.user_password)
+                    }
+                  >
+                    Đăng nhập
+                  </Button>
                 </div>
                 <div className="divider">
+                  <Link to={`/`} className="hover:text-pink-400">
+                    Quên mật khẩu.
+                  </Link>
                   <Divider
                     style={{ borderColor: "#7cb305", fontFamily: "Itim" }}
                     plain

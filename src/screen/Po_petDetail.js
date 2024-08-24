@@ -4,7 +4,7 @@ import Navbar from "../component/petowner/navbar";
 import { Tabs, Button } from "antd";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import PetProfile from "../screen/tab/Po_petDetail_infomation";
-import PetMedical from "../screen/tab/Po_petDetail_medical";
+import PetHistory from "../screen/tab/Po_petDetail_history";
 import PetVaccine from "../screen/tab/Po_petDetail_vaccine";
 import PetReminder from "../screen/tab/Po_petDetail_reminder";
 import "../css/Po_profile.css";
@@ -52,12 +52,6 @@ export default function profile() {
               <PetProfile />
             </Tabs.TabPane>
             <Tabs.TabPane
-              tab={<h1 className="text-[20px]">Hồ sơ bệnh lý</h1>}
-              key="2"
-            >
-              <PetMedical />
-            </Tabs.TabPane>
-            <Tabs.TabPane
               tab={<h1 className="text-[20px]">Hồ sơ bệnh lý - Đã nhập</h1>}
               key="3"
             >
@@ -68,6 +62,12 @@ export default function profile() {
               key="4"
             >
               <PetReminder />
+            </Tabs.TabPane>
+            <Tabs.TabPane
+              tab={<h1 className="text-[20px]">Lịch sử</h1>}
+              key="2"
+            >
+              <PetHistory />
             </Tabs.TabPane>
           </Tabs>
         </div>

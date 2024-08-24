@@ -1,7 +1,7 @@
 import React from "react";
-import { Button, Typography } from "antd";
+import { Typography } from "antd";
 
-export default function Po_petDetail_medical() {
+export default function Po_petDetail_history() {
   return (
     <div className="flex flex-col justify-center items-center gap-2">
       <img
@@ -12,7 +12,6 @@ export default function Po_petDetail_medical() {
       <Typography.Text>
         Hồ sơ bệnh lý của bé nhà chưa được ghi nhận.
       </Typography.Text>
-      <Button type="primary">Tạo hồ sơ ngay !</Button>
     </div>
   );
 }
