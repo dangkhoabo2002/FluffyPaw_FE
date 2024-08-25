@@ -105,6 +105,50 @@ export default function Login() {
       });
   };
 
+  // ---------- API Register -----------
+
+  const [register, setRegister] = useState({
+    user_username: "",
+    user_password: "",
+    user_confirm_password: "",
+    user_name: "",
+    user_location: "",
+    user_email: "",
+    user_gender: "",
+  });
+
+  const onChangeRegister = (prop) => (event) => {
+    setRegister({ ...register, [prop]: event.target.value });
+  };
+
+  const handleRegister = (registerData) => {
+    axios
+      .post(
+        "https://fluffypaw.azurewebsites.net/api/Authentication/RegisterPO",
+        {
+          phone: "string",
+          userName: register.user_username,
+          password: register.user_username,
+          email: register.user_email,
+          fullName: register.user_name,
+          address: register.user_location,
+          dob: "2024-08-25",
+          gender: register.user_gender,
+        }
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          const dataLog = response.data;
+          console.log(dataLog.data.token);
+          localStorage.setItem("access_token", dataLog.data.token);
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // console.log("usasdasd", registerData.user_email);
+  };
   return (
     <>
       <div className="flex justify-center pt-12">
@@ -280,18 +324,24 @@ export default function Login() {
                     <Input
                       size="large"
                       placeholder="Tên đăng nhập"
+                      value={register.user_username}
+                      onChange={onChangeRegister("user_username")}
                       prefix={<UserOutlined />}
                     />
                     <Input
                       size="large"
                       placeholder="Mật khẩu"
                       type="password"
+                      value={register.user_password}
+                      onChange={onChangeRegister("user_password")}
                       prefix={<KeyOutlined />}
                     />
                     <Input
                       size="large"
                       placeholder="Xác nhận mật khẩu"
                       type="password"
+                      value={register.user_confirm_password}
+                      onChange={onChangeRegister("user_confirm_password")}
                       prefix={<KeyOutlined />}
                     />
                   </div>
@@ -340,11 +390,15 @@ export default function Login() {
                     <Input
                       size="large"
                       placeholder="Họ và tên"
+                      value={register.user_name}
+                      onChange={onChangeRegister("user_name")}
                       prefix={<UserOutlined />}
                     />
                     <Input
                       size="large"
                       placeholder="Địa chỉ nơi ở / Nơi thú cưng ở"
+                      value={register.user_location}
+                      onChange={onChangeRegister("user_location")}
                       prefix={<MapPinIcon class="h-5 w-4" />}
                     />
                   </div>
@@ -404,6 +458,8 @@ export default function Login() {
                     <Input
                       size="large"
                       placeholder="Email"
+                      value={register.user_email}
+                      onChange={onChangeRegister("user_email")}
                       prefix={<MailOutlined />}
                     />
                     <div className="flex flex-row justify-between items-center">
@@ -411,10 +467,13 @@ export default function Login() {
                         onChange={onChangeDate}
                         placeholder="Ngày sinh"
                       />
-                      <Radio.Group onChange={onChangeSex} value={sex}>
-                        <Radio value={1}>Nam</Radio>
-                        <Radio value={2}>Nữ</Radio>
-                        <Radio value={3}>Khác</Radio>
+                      <Radio.Group
+                        value={register.user_gender}
+                        onChange={onChangeRegister("user_gender")}
+                      >
+                        <Radio value={"Male"}>Nam</Radio>
+                        <Radio value={"Female"}>Nữ</Radio>
+                        <Radio value={"Others"}>Khác</Radio>
                       </Radio.Group>
                     </div>
                     <Checkbox className="items-start" onChange={onChangeToP}>
@@ -453,7 +512,7 @@ export default function Login() {
                         step === 0 || step === 1 || step === 2 ? "hidden" : ""
                       }
                       type="primary"
-                      onClick={() => setStep(3)}
+                      onClick={() => handleRegister(register)}
                     >
                       Hoàn tất
                     </Button>
