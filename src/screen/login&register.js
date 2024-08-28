@@ -10,6 +10,8 @@ import {
   Typography,
   DatePicker,
   Radio,
+  notification,
+  Modal,
 } from "antd";
 import {
   UserOutlined,
@@ -25,11 +27,66 @@ import axios from "axios";
 const { Title } = Typography;
 
 export default function Login() {
+  const [api, contextHolder] = notification.useNotification();
+  const openNotificationWithIcon = (type) => {
+    if (type === "warning") {
+      api.warning({
+        message: "Thông tin này không thể trống !",
+        description: "Vui lòng nhập đầy đủ thông tin của bạn để tiếp tục.",
+        placement: "bottomRight",
+      });
+    } else if (type === "unvalid_email") {
+      api.warning({
+        message: "Sai định dạng mail !",
+        description: "Vui lòng nhập đúng email của bạn.",
+        placement: "bottomRight",
+      });
+    } else if (type === "unvalid_phone") {
+      api.warning({
+        message: "Sai định dạng số điện thoại !",
+        description: "Vui lòng nhập đúng số điện thoại của bạn.",
+        placement: "bottomRight",
+      });
+    }
+  };
+
   const navigate = useNavigate();
+
+  const [blockButton, setBlockButton] = useState(true);
 
   // ------ Step 1
   const [submitGmail, setSubmitGmail] = useState(false);
   const [step, setStep] = useState(0);
+
+  const handleSendOTP = (e) => {
+    console.log("123", register.user_phone);
+    if (
+      register.user_phone === null ||
+      register.user_phone === "" ||
+      register.user_phone === undefined
+    ) {
+      openNotificationWithIcon("warning");
+    } else {
+      // axios
+      //   .post("https://fluffypaw.azurewebsites.net/api/Authentication/Login", {
+      //     username: us,
+      //     password: pw,
+      //   })
+      //   .then((response) => {
+      //     if (response.status === 200) {
+      //       const dataLog = response.data;
+      //       console.log(dataLog.data.token);
+      //       localStorage.setItem("access_token", dataLog.data.token);
+      //       navigate("/");
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
+
+      setSubmitGmail(true);
+    }
+  };
 
   const onChangeRemember = (e) => {
     console.log(`checked = ${e.target.checked}`);
@@ -87,27 +144,41 @@ export default function Login() {
   };
 
   const handleLogin = (us, pw) => {
-    axios
-      .post("https://fluffypaw.azurewebsites.net/api/Authentication/Login", {
-        username: us,
-        password: pw,
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          const dataLog = response.data;
-          console.log(dataLog.data.token);
-          localStorage.setItem("access_token", dataLog.data.token);
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (
+      us === null ||
+      us === "" ||
+      us === undefined ||
+      pw === null ||
+      pw === "" ||
+      pw === undefined
+    ) {
+      openNotificationWithIcon("warning");
+    } else {
+      axios
+        .post("https://fluffypaw.azurewebsites.net/api/Authentication/Login", {
+          username: us,
+          password: pw,
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            const dataLog = response.data;
+            console.log(dataLog.data.token);
+            sessionStorage.setItem("access_token", dataLog.data.token);
+            navigate("/");
+          }
+        })
+
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   // ---------- API Register -----------
 
+  const [isLoading, setIsLoading] = useState(false);
   const [register, setRegister] = useState({
+    user_phone: "",
     user_username: "",
     user_password: "",
     user_confirm_password: "",
@@ -121,7 +192,8 @@ export default function Login() {
     setRegister({ ...register, [prop]: event.target.value });
   };
 
-  const handleRegister = (registerData) => {
+  const handleRegister = () => {
+    setIsLoading(true);
     axios
       .post(
         "https://fluffypaw.azurewebsites.net/api/Authentication/RegisterPO",
@@ -137,20 +209,66 @@ export default function Login() {
         }
       )
       .then((response) => {
+        setIsLoading(false);
+
         if (response.status === 200) {
-          const dataLog = response.data;
-          console.log(dataLog.data.token);
-          localStorage.setItem("access_token", dataLog.data.token);
-          navigate("/");
+          console.log(response.data);
+          handleRegisterClick();
         }
       })
       .catch((error) => {
         console.error(error);
       });
-    // console.log("usasdasd", registerData.user_email);
+    // console.log("usasdasd", register.user_email);
+  };
+
+  // ---------- API Forgot Password -----------
+
+  const [openForPass, setOpenForPass] = useState(false);
+  const [method, setMethod] = useState("phone");
+  const [forgot, setForgot] = useState({
+    email: "",
+    phone: "",
+  });
+
+  const [otpForgot, setOtpForgot] = useState(false);
+  const [otpForgotMail, setOtpForgotMail] = useState(false);
+
+  const onChangeInputForgot = (prop) => (event) => {
+    setForgot({ ...forgot, [prop]: event.target.value });
+  };
+  const openForgotPass = () => {
+    setOpenForPass(true);
+  };
+
+  const handleCancel = () => {
+    setOpenForPass(false);
+  };
+
+  const onChangeMethod = (e: RadioChangeEvent) => {
+    setMethod(e.target.value);
+    console.log(method);
+  };
+
+  const handleSendOTPGmailForgot = () => {
+    if (forgot.email.includes("@gmail.com")) {
+      setOtpForgotMail(true);
+      return;
+    } else openNotificationWithIcon("unvalid_email");
+  };
+
+  const handleSendOTPPhoneForgot = () => {
+    const regex = /^\d+$/;
+
+    if (!regex.test(forgot.phone) && forgot.phone.length < 12) {
+      openNotificationWithIcon("unvalid_phone");
+      return;
+    } else setOtpForgot(true);
   };
   return (
     <>
+      {contextHolder}
+
       <div className="flex justify-center pt-12">
         <div className="boxLogin bg-white rounded-3xl overflow-hidden relative pl-6">
           <div
@@ -206,14 +324,19 @@ export default function Login() {
                     onClick={() =>
                       handleLogin(login.user_username, login.user_password)
                     }
+                    loading={isLoading}
+                    disabled={isLoading}
                   >
                     Đăng nhập
                   </Button>
                 </div>
                 <div className="divider">
-                  <Link to={`/`} className="hover:text-pink-400">
+                  <button
+                    onClick={openForgotPass}
+                    className="hover:text-pink-400"
+                  >
                     Quên mật khẩu.
-                  </Link>
+                  </button>
                   <Divider
                     style={{ borderColor: "#7cb305", fontFamily: "Itim" }}
                     plain
@@ -228,7 +351,95 @@ export default function Login() {
                 </Button>
               </div>
             </div>
+            {/* ------------------- Modal Forgot Password ----------------------- */}
 
+            <Modal
+              open={openForPass}
+              title="Lấy lại mật khẩu"
+              onCancel={handleCancel}
+              footer={(_, {}) => (
+                <>
+                  <Button type="primary" onClick={openForPass}>
+                    Tiếp tục
+                  </Button>
+                  <Button onClick={handleCancel}>Thoát</Button>
+                </>
+              )}
+            >
+              <div className="flex flex-col gap-2 pt-4">
+                <p>Nhận xác thực qua: </p>
+                <Radio.Group value={method} onChange={onChangeMethod}>
+                  <Radio value={"phone"}>Số điện thoại</Radio>
+                  <Radio value={"email"}>Gmail</Radio>
+                </Radio.Group>
+                {method === "phone" ? (
+                  <div className="py-2">
+                    <p>Hãy nhập số điện thoại</p>
+                    <div className="line1 pt-2">
+                      <div className="pb-2 flex flex-row gap-5">
+                        <Input
+                          addonBefore="+84"
+                          value={forgot.phone}
+                          onChange={onChangeInputForgot("phone")}
+                          style={{ width: "100%" }}
+                        />
+                        <Button
+                          type="primary"
+                          onClick={() => handleSendOTPPhoneForgot()}
+                        >
+                          Gửi mã xác nhận
+                        </Button>
+                      </div>
+                      {otpForgot === true ? (
+                        <>
+                          <Title level={5} className="pb-1">
+                            Nhập mã xác thực được gửi vào số điện thoại
+                          </Title>
+                          <Input.OTP
+                            formatter={(str) => str.toUpperCase()}
+                            {...sharedProps}
+                          />
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="py-2">
+                    <p>Hãy nhập email của tài khoản đăng kí:</p>
+                    <div className="line1 pt-2">
+                      <div className="pb-2 flex flex-row gap-5">
+                        <Input
+                          value={forgot.email}
+                          onChange={onChangeInputForgot("email")}
+                          style={{ width: "100%" }}
+                        />
+                        <Button
+                          type="primary"
+                          onClick={() => handleSendOTPGmailForgot()}
+                        >
+                          Gửi mã xác nhận
+                        </Button>
+                      </div>
+                      {otpForgotMail === true ? (
+                        <>
+                          <Title level={5} className="pb-1">
+                            Nhập mã xác thực được gửi vào email của bạn
+                          </Title>
+                          <Input.OTP
+                            formatter={(str) => str.toUpperCase()}
+                            {...sharedProps}
+                          />
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Modal>
             {/* ------------------- REGISTER ----------------------- */}
             <div
               className={
@@ -272,11 +483,13 @@ export default function Login() {
                       Số điện thoại của bạn
                     </Title>
                     <div className="pb-2 flex flex-row gap-5">
-                      <Input addonBefore="+84" style={{ width: "100%" }} />
-                      <Button
-                        type="primary"
-                        onClick={() => setSubmitGmail(true)}
-                      >
+                      <Input
+                        addonBefore="+84"
+                        value={register.user_phone}
+                        onChange={onChangeRegister("user_phone")}
+                        style={{ width: "100%" }}
+                      />
+                      <Button type="primary" onClick={handleSendOTP}>
                         Gửi mã xác nhận
                       </Button>
                     </div>
@@ -296,7 +509,11 @@ export default function Login() {
                   </div>
 
                   <div className="flex flex-col text-left gap-6">
-                    <Button type="primary" onClick={() => setStep(1)}>
+                    <Button
+                      type="primary"
+                      disabled={blockButton}
+                      onClick={() => setStep(1)}
+                    >
                       Tiếp tục
                     </Button>
                   </div>
@@ -512,7 +729,9 @@ export default function Login() {
                         step === 0 || step === 1 || step === 2 ? "hidden" : ""
                       }
                       type="primary"
-                      onClick={() => handleRegister(register)}
+                      onClick={() => handleRegister()}
+                      loading={isLoading}
+                      disabled={isLoading}
                     >
                       Hoàn tất
                     </Button>
