@@ -6,7 +6,10 @@ import Login from "./screen/login&register";
 import LandingPage from "./screen/landing";
 import PetDetail from "./screen/Po_petDetail";
 import PoWallet from "./screen/Po_wallet";
-import NavUnsign from "./component/unlog_navbar";
+import SmLogin from "./screen/Sm_register";
+import DogService from "./screen/Dog_services";
+import CatService from "./screen/Cat_services";
+import TermPolicy from "./screen/contact/term";
 
 function App() {
   return (
@@ -16,14 +19,17 @@ function App() {
         {/* Guest*/}
         <Route path="/" element={<LandingPage />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/term_policy" element={<TermPolicy />}></Route>
 
         {/* Pet Owner */}
         <Route path="/po_profile" element={<PoProfile />}></Route>
         <Route path="/po_profile/po_petdetail" element={<PetDetail />}></Route>
         <Route path="/po_wallet" element={<PoWallet />}></Route>
+        <Route path="/dog_service" element={<DogService />}></Route>
+        <Route path="/cat_service" element={<CatService />}></Route>
 
         {/* Test */}
-        <Route path="/testabc" element={<NavUnsign />}></Route>
+        <Route path="/testLogin" element={<SmLogin />}></Route>
       </Routes>
     </div>
   );

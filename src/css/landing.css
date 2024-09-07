@@ -1,4 +1,4 @@
-.headImg > img {
+.headImg>img {
   object-fit: cover;
   width: 1540px;
   height: 600px;
@@ -45,7 +45,7 @@
   box-sizing: border-box;
 }
 
-.existPet > img {
+.existPet>img {
   width: 100px;
   object-fit: cover;
 }
@@ -62,8 +62,8 @@
   transform: rotateY(180deg);
 }
 
-.catSection > img,
-.dogSection > img {
+.catSection>img,
+.dogSection>img {
   width: 100px;
   height: 100px;
   transition: all 0.5s;
@@ -112,7 +112,7 @@
   box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
 }
 
-.serviceBox > img {
+.serviceBox>img {
   width: 250px;
   height: 200px;
   border: 1px dashed rgb(176, 175, 175);
