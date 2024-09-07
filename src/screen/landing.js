@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-import {
-  Carousel,
-  Button,
-  Popover,
-  Modal,
-  Radio,
-  Input,
-  Form,
-  Select,
-} from "antd";
+import { Carousel, Button, Popover, Modal } from "antd";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import Navbar from "../component/petowner/navbar";
 import Footer from "../component/footer";
@@ -145,9 +136,11 @@ export default function Landing() {
                 alt="serviceImg"
                 src="https://kinhtevadubao.vn/stores/news_dataimages/kinhtevadubaovn/082019/31/17/no-ro-trao-luu-dich-vu-cham-soc-thu-cung-14-.7388.jpg"
               />
-              <div className="serviceContent flex flex-col">
-                <h2 className="py-10 font-bold">Tắm gội cho cún cưng</h2>
-                <h2>168.000 VNĐ</h2>
+              <div className="serviceContent flex flex-col h-full">
+                <h2 className="py-10 font-bold text-[1.4rem] truncate w-[240px]">
+                  Tắm gội cho cún cưng ad
+                </h2>
+                <p className="font-[itim] text-[1.2rem]">168.000 VNĐ</p>
                 <div id="serviceDescription">
                   <p className="truncate">
                     Đến với chúng tôi con của bạn sẽ được chăm sóc từ A-Z chỉ
@@ -156,7 +149,7 @@ export default function Landing() {
                   </p>
                 </div>
 
-                <div className="contactService flex flex-row gap-4">
+                <div className="contactService flex flex-row gap-4 pt-4">
                   <Button type="primary" size="large" className="bookingButton">
                     Đặt ngay
                   </Button>
@@ -263,26 +256,30 @@ export default function Landing() {
           {/* ......................... */}
           <h1 className="titleSection pt-20">Thú cưng bạn đang tìm kiếm?</h1>
           <div className="flex flex-row gap-10 py-10">
-            <div className="dogSection">
-              <img
-                alt="dogIcon"
-                src="https://demo2.themelexus.com/ziggy/wp-content/uploads/2022/05/h3_dog.png"
-              />
-              <span className="flex flex-col py-6">
-                <h2 className="w-full font-bold text-xl">Chó</h2>
-                <p className="w-full text-[#999999]">1.502 mặt hàng</p>
-              </span>
-            </div>
-            <div className="catSection">
-              <img
-                alt="catIcon"
-                src="https://demo2.themelexus.com/ziggy/wp-content/uploads/2022/05/cat.svg"
-              />
-              <span className="flex flex-col py-6">
-                <h2 className="w-full font-bold text-xl">Mèo</h2>
-                <p className="w-full text-[#999999]">270 mặt hàng</p>
-              </span>
-            </div>
+            <Link to={`/dog_service`}>
+              <div className="dogSection">
+                <img
+                  alt="dogIcon"
+                  src="https://demo2.themelexus.com/ziggy/wp-content/uploads/2022/05/h3_dog.png"
+                />
+                <span className="flex flex-col py-6">
+                  <h2 className="w-full font-bold text-xl">Chó</h2>
+                  <p className="w-full text-[#999999]">1.502 mặt hàng</p>
+                </span>
+              </div>
+            </Link>
+            <Link to={`/cat_service`}>
+              <div className="catSection">
+                <img
+                  alt="catIcon"
+                  src="https://demo2.themelexus.com/ziggy/wp-content/uploads/2022/05/cat.svg"
+                />
+                <span className="flex flex-col py-6">
+                  <h2 className="w-full font-bold text-xl">Mèo</h2>
+                  <p className="w-full text-[#999999]">270 mặt hàng</p>
+                </span>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
