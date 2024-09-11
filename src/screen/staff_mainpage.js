@@ -14,7 +14,7 @@ import {
 
 import { Menu, Dropdown } from "antd";
 import Logo from "../component/petowner/logo.png";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, Link } from "react-router-dom";
 
 const items = [
   {
@@ -121,7 +121,9 @@ const MainPage = () => {
         <div className="flex flex-row gap-4">
           <BellIcon class="h-7 w-7 text-gray-500" />
           <WalletIcon class="h-7 w-7 text-gray-500" />
-          <UserCircleIcon class="h-7 w-7 text-gray-500" />
+          <Link to={`/store/staff_profile`}>
+            <UserCircleIcon class="h-7 w-7 text-gray-500" />
+          </Link>
         </div>
       </div>
       <div className="flex flex-row h-screen fixed top-[82px] left-0 bottom-0 z-10">

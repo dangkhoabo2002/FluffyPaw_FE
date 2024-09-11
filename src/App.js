@@ -14,6 +14,7 @@ import StaffMainPage from "./screen/staff_mainpage";
 import StaffDashboard from "./screen/staff_dashboard";
 import ServiceApproval from "./screen/staff_service_approval";
 import StaffStoreDetail from "./screen/staff_store_detail";
+import StaffProfile from "./screen/staff_profile";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/store/staff_dashboard" element={<StaffDashboard />}></Route>
           <Route path="/store/staff_service_approval" element={<ServiceApproval />}></Route>
           <Route path="/store/staff_store_detail" element={<StaffStoreDetail />}></Route>
+          <Route path="/store/staff_profile" element={<StaffProfile />}></Route>
 
         </Route>
 
