@@ -1,5 +1,5 @@
 import React from "react";
-import { LineChart } from '@mui/x-charts/LineChart';
+import { LineChart } from "@mui/x-charts/LineChart";
 
 export default function staff_dashboard() {
   return (
@@ -32,6 +32,7 @@ export default function staff_dashboard() {
       </div>
 
       <div className="ml-[300px] mr-12 mt-6 px-6 py-6 flex flex-col shadow-md bg-white rounded-md">
+        <h1 className="text-3xl pb-6">Doanh thu</h1>
         <LineChart
           xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
           series={[
