@@ -1,20 +1,35 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 
-import PoProfile from "./screen/Po_profile";
+import SmLogin from "./screen/Sm_register";
+
+// Fluffy Paw
 import Login from "./screen/login&register";
 import LandingPage from "./screen/landing";
-import PetDetail from "./screen/Po_petDetail";
-import PoWallet from "./screen/Po_wallet";
-import SmLogin from "./screen/Sm_register";
 import DogService from "./screen/Dog_services";
 import CatService from "./screen/Cat_services";
-import TermPolicy from "./screen/contact/term";
+import PoWallet from "./screen/Po_wallet";
+
+// Pet Owner
+import PoProfile from "./screen/Po_profile";
+import PetDetail from "./screen/Po_petDetail";
+
+// Store Manager
+import SMMainPage from "./screen/Sm_mainpage";
+import SMDashboard from "./screen/Sm_dasboard";
+import SMStaffManagement from "./screen/Sm_listofstaff";
+
+// Staff
 import StaffMainPage from "./screen/staff_mainpage";
 import StaffDashboard from "./screen/staff_dashboard";
-import ServiceApproval from "./screen/staff_service_approval";
-import StaffStoreDetail from "./screen/staff_store_detail";
 import StaffProfile from "./screen/staff_profile";
+import StaffStoreDetail from "./screen/staff_store_detail";
+
+// Admin
+import ServiceApproval from "./screen/staff_service_approval";
+
+// Others
+import TermPolicy from "./screen/contact/term";
 
 function App() {
   return (
@@ -35,11 +50,30 @@ function App() {
 
         {/* Store Manager + Staff */}
         <Route path="/store" element={<StaffMainPage />}>
-          <Route path="/store/staff_dashboard" element={<StaffDashboard />}></Route>
-          <Route path="/store/staff_service_approval" element={<ServiceApproval />}></Route>
-          <Route path="/store/staff_store_detail" element={<StaffStoreDetail />}></Route>
+          <Route
+            path="/store/staff_dashboard"
+            element={<StaffDashboard />}
+          ></Route>
+          <Route
+            path="/store/staff_service_approval"
+            element={<ServiceApproval />}
+          ></Route>
+          <Route
+            path="/store/staff_store_detail"
+            element={<StaffStoreDetail />}
+          ></Route>
           <Route path="/store/staff_profile" element={<StaffProfile />}></Route>
+        </Route>
 
+        <Route path="/store_manager" element={<SMMainPage />}>
+          <Route
+            path="/store_manager/dashboard"
+            element={<SMDashboard />}
+          ></Route>
+          <Route
+            path="/store_manager/staff_management"
+            element={<SMStaffManagement />}
+          ></Route>
         </Route>
 
         {/* Test */}
