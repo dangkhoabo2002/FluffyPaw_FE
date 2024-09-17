@@ -12,7 +12,7 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
 
-import { Menu, Dropdown } from "antd";
+import { Menu, Alert } from "antd";
 import Logo from "../component/petowner/logo.png";
 import { Outlet, useNavigate, Link } from "react-router-dom";
 
@@ -119,8 +119,8 @@ const MainPage = () => {
       <div className="flex flex-row sticky top-0 left-0 right-0 h-auto justify-between items-center px-7 py-2 border-b-2 bg-white shadow-md z-10">
         <img src={Logo} alt="Logo" className="w-auto h-16" />
         <div className="flex flex-row gap-4">
+          <Alert message="Staff" type="info" />
           <BellIcon class="h-7 w-7 text-gray-500" />
-          <WalletIcon class="h-7 w-7 text-gray-500" />
           <Link to={`/store/staff_profile`}>
             <UserCircleIcon class="h-7 w-7 text-gray-500" />
           </Link>

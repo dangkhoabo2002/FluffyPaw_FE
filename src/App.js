@@ -8,6 +8,7 @@ import Login from "./screen/login&register";
 import LandingPage from "./screen/landing";
 import DogService from "./screen/Dog_services";
 import CatService from "./screen/Cat_services";
+import Services from "./screen/Service_mainpage";
 import PoWallet from "./screen/Po_wallet";
 
 // Pet Owner
@@ -18,6 +19,8 @@ import PetDetail from "./screen/Po_petDetail";
 import SMMainPage from "./screen/Sm_mainpage";
 import SMDashboard from "./screen/Sm_dasboard";
 import SMStaffManagement from "./screen/Sm_listofstaff";
+import SMProfile from "./screen/Sm_profile";
+import SMWallet from "./screen/Sm_wallet";
 
 // Staff
 import StaffMainPage from "./screen/staff_mainpage";
@@ -74,8 +77,14 @@ function App() {
             path="/store_manager/staff_management"
             element={<SMStaffManagement />}
           ></Route>
+          <Route
+            path="/store_manager/sm_profile"
+            element={<SMProfile />}
+          ></Route>
+          <Route path="/store_manager/sm_wallet" element={<SMWallet />}></Route>
         </Route>
 
+        <Route path="/services" element={<Services />}></Route>
         {/* Test */}
       </Routes>
     </div>
