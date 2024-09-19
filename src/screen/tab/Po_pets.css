@@ -24,7 +24,8 @@
   position: relative;
 }
 
-#petName {
+#petName,
+#petName2 {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -34,9 +35,12 @@
   padding: 1px 16px 1px 12px;
 }
 
-.addPet:hover {
-  background-color: #f7a0c0;
+#petName2 {
+  font-size: 12px;
+  border-radius: 0px 0px;
+
 }
 
-.catIcon {
+.addPet:hover {
+  background-color: #f7a0c0;
 }
