@@ -256,7 +256,7 @@ export default function Landing() {
           {/* ......................... */}
           <h1 className="titleSection pt-20">Thú cưng bạn đang tìm kiếm?</h1>
           <div className="flex flex-row gap-10 py-10">
-            <Link to={`/dog_service`}>
+            <Link to={`/services`}>
               <div className="dogSection">
                 <img
                   alt="dogIcon"
@@ -268,7 +268,7 @@ export default function Landing() {
                 </span>
               </div>
             </Link>
-            <Link to={`/cat_service`}>
+            <Link to={`/services`}>
               <div className="catSection">
                 <img
                   alt="catIcon"

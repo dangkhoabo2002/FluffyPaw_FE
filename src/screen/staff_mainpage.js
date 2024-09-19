@@ -7,9 +7,9 @@ import {
   LineChartOutlined,
 } from "@ant-design/icons";
 import {
-  WalletIcon,
   BellIcon,
   UserCircleIcon,
+  ChatBubbleOvalLeftEllipsisIcon,
 } from "@heroicons/react/24/outline";
 
 import { Menu, Alert } from "antd";
@@ -58,25 +58,6 @@ const items = [
         key: "7",
         label: "Tất cả dịch vụ",
       },
-      {
-        key: "8",
-        label: "Thêm dịch vụ",
-      },
-    ],
-  },
-  {
-    key: "sub3",
-    label: "Chăm sóc khách hàng",
-    icon: <UserOutlined />,
-    children: [
-      {
-        key: "9",
-        label: "Quản lí Chat",
-      },
-      {
-        key: "10",
-        label: "Quản lí đánh giá",
-      },
     ],
   },
   {
@@ -85,11 +66,11 @@ const items = [
     icon: <HistoryOutlined />,
     children: [
       {
-        key: "11",
+        key: "8",
         label: "Lịch sử giao dịch",
       },
       {
-        key: "12",
+        key: "9",
         label: "Lịch sử rút tiền",
       },
     ],
@@ -111,6 +92,9 @@ const MainPage = () => {
       case "6":
         navigate("/store/staff_store_detail");
         break;
+      case "7":
+        navigate("/store/staff_store_services");
+        break;
     }
   };
 
@@ -120,6 +104,8 @@ const MainPage = () => {
         <img src={Logo} alt="Logo" className="w-auto h-16" />
         <div className="flex flex-row gap-4">
           <Alert message="Staff" type="info" />
+          <ChatBubbleOvalLeftEllipsisIcon class="h-7 w-7 text-gray-500" />
+
           <BellIcon class="h-7 w-7 text-gray-500" />
           <Link to={`/store/staff_profile`}>
             <UserCircleIcon class="h-7 w-7 text-gray-500" />

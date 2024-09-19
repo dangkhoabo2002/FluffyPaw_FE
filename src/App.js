@@ -9,6 +9,8 @@ import LandingPage from "./screen/landing";
 import DogService from "./screen/Dog_services";
 import CatService from "./screen/Cat_services";
 import Services from "./screen/Service_mainpage";
+import ServiceBooking from "./screen/Service_booking";
+import ServiceBooking2 from "./screen/Service_booking2";
 import PoWallet from "./screen/Po_wallet";
 
 // Pet Owner
@@ -27,6 +29,7 @@ import StaffMainPage from "./screen/staff_mainpage";
 import StaffDashboard from "./screen/staff_dashboard";
 import StaffProfile from "./screen/staff_profile";
 import StaffStoreDetail from "./screen/staff_store_detail";
+import StaffStoreServices from "./screen/staff_store_services";
 
 // Admin
 import ServiceApproval from "./screen/staff_service_approval";
@@ -58,6 +61,10 @@ function App() {
             element={<StaffDashboard />}
           ></Route>
           <Route
+            path="/store/staff_store_services"
+            element={<StaffStoreServices />}
+          ></Route>
+          <Route
             path="/store/staff_service_approval"
             element={<ServiceApproval />}
           ></Route>
@@ -85,6 +92,13 @@ function App() {
         </Route>
 
         <Route path="/services" element={<Services />}></Route>
+        <Route path="/service_booking" element={<ServiceBooking />}></Route>
+
+        <Route
+          path="/service_booking_type2"
+          element={<ServiceBooking2 />}
+        ></Route>
+
         {/* Test */}
       </Routes>
     </div>

@@ -27,7 +27,7 @@ export default function profile() {
                 <p className="text-gray-400">Người sở hữu thú cưng</p>
               </div>
             </div>
-            <div className="card">
+            <div>
               <p className="card1">
                 <p>Mỗi người đều có hạnh phúc riêng, thú cưng cũng thế.</p>
               </p>

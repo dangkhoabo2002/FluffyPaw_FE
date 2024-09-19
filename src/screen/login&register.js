@@ -23,6 +23,7 @@ import { MapPinIcon } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
 
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const { Title } = Typography;
 
@@ -162,7 +163,8 @@ export default function Login() {
         .then((response) => {
           if (response.status === 200) {
             const dataLog = response.data;
-            console.log(dataLog.data.token);
+            const myDecodedToken = jwtDecode(dataLog.data);
+            console.log(myDecodedToken);
             sessionStorage.setItem("access_token", dataLog.data.token);
             navigate("/");
           }
