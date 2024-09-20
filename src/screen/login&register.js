@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import "../css/login&register.css";
 
 import {
@@ -24,6 +25,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import firebase from "firebase/compat/app";
 
 const { Title } = Typography;
 
@@ -267,10 +269,13 @@ export default function Login() {
       return;
     } else setOtpForgot(true);
   };
+
+  // SEND OTP
+
   return (
     <>
       {contextHolder}
-
+      <div id="recapcha"></div>
       <div className="flex justify-center pt-12">
         <div className="boxLogin bg-white rounded-3xl overflow-hidden relative pl-6">
           <div

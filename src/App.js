@@ -54,7 +54,7 @@ function App() {
         <Route path="/dog_service" element={<DogService />}></Route>
         <Route path="/cat_service" element={<CatService />}></Route>
 
-        {/* Store Manager + Staff */}
+        {/* Staff */}
         <Route path="/store" element={<StaffMainPage />}>
           <Route
             path="/store/staff_dashboard"
@@ -74,6 +74,8 @@ function App() {
           ></Route>
           <Route path="/store/staff_profile" element={<StaffProfile />}></Route>
         </Route>
+
+        {/* Store Manager  */}
 
         <Route path="/store_manager" element={<SMMainPage />}>
           <Route
