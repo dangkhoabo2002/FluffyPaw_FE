@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
-const App = () => {
+const App = ({ limit }) => {
   const [fileList, setFileList] = useState([]);
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -28,7 +28,7 @@ const App = () => {
         onChange={onChange}
         onPreview={onPreview}
       >
-        {fileList.length < 2 && "+ Upload"}
+        {fileList.length < limit && "+ Upload"}
       </Upload>
     </ImgCrop>
   );

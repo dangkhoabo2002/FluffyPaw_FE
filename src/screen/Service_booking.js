@@ -78,7 +78,7 @@ export default function Service_booking() {
               <>
                 <h1 className="text-[28px]">Sáng</h1>
                 <div className="flex flex-row gap-6">
-                  <div className="px-8 py-2 font-mono border border-gray-400 rounded-lg hover:border-black">
+                  <div className="bg-gray-400 px-8 py-2 font-mono border border-gray-400 rounded-lg hover:border-black">
                     8:15
                   </div>
                   <div className="px-8 py-2 font-mono border border-gray-400 rounded-lg hover:border-black">

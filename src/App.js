@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 
-import SmLogin from "./screen/Sm_register";
+import SmRegister from "./screen/Sm_register";
 
 // Fluffy Paw
 import Login from "./screen/login&register";
@@ -22,6 +22,7 @@ import SMMainPage from "./screen/Sm_mainpage";
 import SMDashboard from "./screen/Sm_dasboard";
 import SMStaffManagement from "./screen/Sm_listofstaff";
 import SMProfile from "./screen/Sm_profile";
+import SMStores from "./screen/Sm_listofstores";
 import SMWallet from "./screen/Sm_wallet";
 
 // Staff
@@ -54,7 +55,7 @@ function App() {
         <Route path="/dog_service" element={<DogService />}></Route>
         <Route path="/cat_service" element={<CatService />}></Route>
 
-        {/* Store Manager + Staff */}
+        {/* Staff */}
         <Route path="/store" element={<StaffMainPage />}>
           <Route
             path="/store/staff_dashboard"
@@ -75,6 +76,8 @@ function App() {
           <Route path="/store/staff_profile" element={<StaffProfile />}></Route>
         </Route>
 
+        {/* Store Manager  */}
+
         <Route path="/store_manager" element={<SMMainPage />}>
           <Route
             path="/store_manager/dashboard"
@@ -88,8 +91,14 @@ function App() {
             path="/store_manager/sm_profile"
             element={<SMProfile />}
           ></Route>
+          <Route
+            path="/store_manager/list_of_store"
+            element={<SMStores />}
+          ></Route>
           <Route path="/store_manager/sm_wallet" element={<SMWallet />}></Route>
         </Route>
+
+        <Route path="/sm_register" element={<SmRegister />}></Route>
 
         <Route path="/services" element={<Services />}></Route>
         <Route path="/service_booking" element={<ServiceBooking />}></Route>

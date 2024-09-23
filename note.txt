@@ -26,4 +26,11 @@ font-family: "Itim", cursive;
 
 main color: #F2BDCB
 
+#f7d9ea
+
+#f3d0d7
+
+#f7cfe7
+
+#ff7fa1
 link form antdes: https://ant.design/components/form
