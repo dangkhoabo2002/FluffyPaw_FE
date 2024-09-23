@@ -85,7 +85,7 @@ const SmMainPage = () => {
         navigate("/store_manager/staff_management");
         break;
       case "6":
-        navigate("/");
+        navigate("/store_manager/list_of_store");
         break;
     }
   };

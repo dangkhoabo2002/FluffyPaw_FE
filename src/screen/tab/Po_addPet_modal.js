@@ -10,12 +10,12 @@ export default function AddPet_modal() {
   const [value, setValue] = useState(1);
   const [valueSex, setvalueSex] = useState(1);
 
-  const onChange = (e: RadioChangeEventEvent) => {
+  const onChange = (e) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 
-  const onChangeSex = (e: RadioChangeEventEvent) => {
+  const onChangeSex = (e) => {
     console.log("radio checked", e.target.value);
     setvalueSex(e.target.value);
   };
@@ -25,7 +25,7 @@ export default function AddPet_modal() {
   // -----------------------
 
   // Select value
-  const handleChange = (value: string) => {
+  const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
   return (
@@ -40,7 +40,7 @@ export default function AddPet_modal() {
       <div className="flex flex-row">
         <div className="flex flex-col w-full">
           <Form.Item label="Hình ảnh thú cưng">
-            <UploadImg />
+            <UploadImg limit={2} />
           </Form.Item>
           <Form.Item label="Giống loài">
             <Radio.Group onChange={onChange} value={value}>

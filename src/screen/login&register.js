@@ -25,7 +25,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import firebase from "firebase/compat/app";
 
 const { Title } = Typography;
 
@@ -44,31 +43,63 @@ export default function Login() {
         description: "Vui lòng nhập đúng email của bạn.",
         placement: "bottomRight",
       });
+    } else if (type === "unvalid_username") {
+      api.warning({
+        message: "Sai định dạng tên tài khoản !",
+        description: "Vui lòng nhập tối thiểu 8 kí tự và tối đa 100 kí tự.",
+        placement: "bottomRight",
+      });
     } else if (type === "unvalid_phone") {
       api.warning({
         message: "Sai định dạng số điện thoại !",
         description: "Vui lòng nhập đúng số điện thoại của bạn.",
         placement: "bottomRight",
       });
+    } else {
+      api.warning({
+        message: `${type}`,
+        description: "Vui lòng thử lại.",
+        placement: "bottomRight",
+      });
     }
+  };
+
+  const openSuccess = (type) => {
+    if (type === "register_success")
+      api.success({
+        message: "Đăng kí thành công !",
+        description:
+          "Chào mừng bạn đến với Fluffy Paw, vui lòng đăng nhập để vào hệ thống.",
+        placement: "bottomRight",
+      });
   };
 
   const navigate = useNavigate();
 
   const [blockButton, setBlockButton] = useState(true);
 
-  // ------ Step 1
-  const [submitGmail, setSubmitGmail] = useState(false);
-  const [step, setStep] = useState(0);
+  // Check valid phone
+  const isValidPhoneNumber = (phoneNumber) => {
+    const phoneNumberRegex = /^\+?[0-9]{9,11}$/;
+    return phoneNumberRegex.test(phoneNumber);
+  };
+
+  // Check valid fullname
+
+  const isValidFullName = (fullname) => {
+    const nameRegex = /^[a-zA-ZÀ-ỹ\s\-]+(?:\s[a-zA-ZÀ-ỹ\s\-]+)*$/;
+    return nameRegex.test(fullname);
+  };
 
   const handleSendOTP = (e) => {
-    console.log("123", register.user_phone);
     if (
       register.user_phone === null ||
       register.user_phone === "" ||
       register.user_phone === undefined
     ) {
       openNotificationWithIcon("warning");
+    } else if (isValidPhoneNumber(register.user_phone) === false) {
+      openNotificationWithIcon("unvalid_phone");
     } else {
       // axios
       //   .post("https://fluffypaw.azurewebsites.net/api/Authentication/Login", {
@@ -91,16 +122,30 @@ export default function Login() {
     }
   };
 
+  // ACCEPT POLICY
+
+  const [acceptTerm, setAcceptTerm] = useState(false);
   const onChangeRemember = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
 
   const onChangeToP = (e) => {
     console.log(`checked = ${e.target.checked}`);
+    setAcceptTerm(e.target.checked);
   };
 
   const [isAnimating, setIsAnimating] = useState(false);
   const handleRegisterClick = () => {
+    setRegister({
+      user_phone: "",
+      user_username: "",
+      user_password: "",
+      user_confirm_password: "",
+      user_name: "",
+      user_location: "",
+      user_email: "",
+      user_gender: "",
+    });
     if (isAnimating === false) {
       setIsAnimating(true);
     } else setIsAnimating(false);
@@ -113,6 +158,61 @@ export default function Login() {
     onChangeOTP,
   };
 
+  // NEXT STEP + CHECK VALID  1 - 4
+  const [submitGmail, setSubmitGmail] = useState(false);
+  const [step, setStep] = useState(0);
+
+  const nextStep = (num) => {
+    console.log(step);
+    switch (num) {
+      case 1:
+        setStep(step + 1);
+        break;
+      case 2:
+        if (
+          register.user_password.length < 1 ||
+          register.user_confirm_password.length < 1 ||
+          register.user_username.length < 1
+        )
+          openNotificationWithIcon("warning");
+        else {
+          if (register.user_username.length < 8)
+            openNotificationWithIcon("Tên tài khoản tối thiểu 8 kí tự");
+          else if (register.user_username.length > 100)
+            openNotificationWithIcon("Tên tài khoản tối đa 100 kí tự");
+          else if (register.user_password.length > 50)
+            openNotificationWithIcon("Mật khẩu tối đa 50 kí tự");
+          else if (register.user_password.length < 5)
+            openNotificationWithIcon("Mật khẩu tối thiểu 5 kí tự");
+          else if (register.user_password !== register.user_confirm_password)
+            openNotificationWithIcon("Mật khẩu xác nhận không đúng");
+          else {
+            setStep(step + 1);
+          }
+        }
+        break;
+      case 3:
+        if (register.user_name.length < 1 || register.user_location.length < 1)
+          openNotificationWithIcon("warning");
+        else {
+          if (isValidFullName(register.user_name) === true) setStep(step + 1);
+          else openNotificationWithIcon("Hãy nhập đúng họ và tên của bạn!");
+        }
+        break;
+      case 4:
+        if (
+          register.user_email.length < 1 ||
+          register.user_gender.length < 1 ||
+          register.user
+        )
+          openNotificationWithIcon("warning");
+        else {
+          if (isValidFullName(register.user_name) === true) setStep(step + 1);
+          else openNotificationWithIcon("Hãy nhập đúng họ và tên của bạn!");
+        }
+        break;
+    }
+  };
   //------------------
 
   const onFinish = (values) => {
@@ -124,7 +224,7 @@ export default function Login() {
 
   // ---- DOB
   const onChangeDate = (date, dateString) => {
-    console.log(date, dateString);
+    setBirthday(dateString);
   };
 
   // ---- Sex of User
@@ -136,6 +236,7 @@ export default function Login() {
 
   // ---------- API Login -----------
 
+  const [isLogging, setIsLoggin] = useState(false);
   const [login, setLogin] = useState({
     user_username: "",
     user_password: "",
@@ -157,6 +258,7 @@ export default function Login() {
     ) {
       openNotificationWithIcon("warning");
     } else {
+      setIsLoggin(true);
       axios
         .post("https://fluffypaw.azurewebsites.net/api/Authentication/Login", {
           username: us,
@@ -169,11 +271,16 @@ export default function Login() {
             console.log(myDecodedToken);
             sessionStorage.setItem("access_token", dataLog.data.token);
             navigate("/");
+            setIsLoggin(false);
           }
         })
 
         .catch((error) => {
+          const errMessage = error.response.data.message;
+          openNotificationWithIcon(errMessage);
+
           console.error(error);
+          setIsLoggin(false);
         });
     }
   };
@@ -191,10 +298,14 @@ export default function Login() {
     user_email: "",
     user_gender: "",
   });
+  const [birthday, setBirthday] = useState("");
 
   const onChangeRegister = (prop) => (event) => {
     setRegister({ ...register, [prop]: event.target.value });
+    console.log(register);
   };
+
+  // REGISTER API
 
   const handleRegister = () => {
     setIsLoading(true);
@@ -202,13 +313,14 @@ export default function Login() {
       .post(
         "https://fluffypaw.azurewebsites.net/api/Authentication/RegisterPO",
         {
-          phone: "string",
+          phone: register.user_phone,
           userName: register.user_username,
-          password: register.user_username,
+          password: register.user_password,
+          comfirmPassword: register.user_confirm_password,
           email: register.user_email,
           fullName: register.user_name,
           address: register.user_location,
-          dob: "2024-08-25",
+          dob: birthday,
           gender: register.user_gender,
         }
       )
@@ -217,13 +329,16 @@ export default function Login() {
 
         if (response.status === 200) {
           console.log(response.data);
+          openSuccess("register_success");
           handleRegisterClick();
         }
       })
       .catch((error) => {
+        const errMessage = error.response.data.message;
+        openNotificationWithIcon(errMessage);
         console.error(error);
+        setIsLoading(false);
       });
-    // console.log("usasdasd", register.user_email);
   };
 
   // ---------- API Forgot Password -----------
@@ -249,11 +364,9 @@ export default function Login() {
     setOpenForPass(false);
   };
 
-  const onChangeMethod = (e: RadioChangeEvent) => {
+  const onChangeMethod = (e) => {
     setMethod(e.target.value);
-    console.log(method);
   };
-
   const handleSendOTPGmailForgot = () => {
     if (forgot.email.includes("@gmail.com")) {
       setOtpForgotMail(true);
@@ -326,16 +439,27 @@ export default function Login() {
                   Ghi nhớ tài khoản.
                 </Checkbox>
                 <div className="flex flex-col text-left gap-6">
-                  <Button
-                    type="primary"
-                    onClick={() =>
-                      handleLogin(login.user_username, login.user_password)
-                    }
-                    loading={isLoading}
-                    disabled={isLoading}
-                  >
-                    Đăng nhập
-                  </Button>
+                  {isLogging === false ? (
+                    <Button
+                      type="primary"
+                      onClick={() =>
+                        handleLogin(login.user_username, login.user_password)
+                      }
+                    >
+                      Đăng nhập
+                    </Button>
+                  ) : (
+                    <Button
+                      type="primary"
+                      onClick={() =>
+                        handleLogin(login.user_username, login.user_password)
+                      }
+                      loading
+                      disabled
+                    >
+                      Đăng nhập
+                    </Button>
+                  )}
                 </div>
                 <div className="divider">
                   <button
@@ -518,8 +642,8 @@ export default function Login() {
                   <div className="flex flex-col text-left gap-6">
                     <Button
                       type="primary"
-                      disabled={blockButton}
-                      onClick={() => setStep(1)}
+                      // disabled={blockButton}
+                      onClick={() => nextStep(1)}
                     >
                       Tiếp tục
                     </Button>
@@ -572,20 +696,10 @@ export default function Login() {
                   <div className="flex flex-col text-left gap-6">
                     <Button
                       className={
-                        step === 1 || step === 2 || step === 3 ? "hidden" : ""
-                      }
-                      type="primary"
-                      onClick={() => setStep(1)}
-                    >
-                      Tiếp tục
-                    </Button>
-
-                    <Button
-                      className={
                         step === 0 || step === 2 || step === 3 ? "hidden" : ""
                       }
                       type="primary"
-                      onClick={() => setStep(2)}
+                      onClick={() => nextStep(2)}
                     >
                       Tiếp tục
                     </Button>
@@ -629,31 +743,10 @@ export default function Login() {
                   <div className="flex flex-col text-left gap-6">
                     <Button
                       className={
-                        step === 1 || step === 2 || step === 0 ? "hidden" : ""
-                      }
-                      type="primary"
-                      onClick={() => setStep(1)}
-                    >
-                      Tiếp tục
-                    </Button>
-                    <div>
-                      <Button
-                        className={
-                          step === 0 || step === 2 || step === 3 ? "hidden" : ""
-                        }
-                        type="primary"
-                        onClick={() => setStep(2)}
-                      >
-                        Tiếp tục
-                      </Button>
-                    </div>
-
-                    <Button
-                      className={
                         step === 0 || step === 1 || step === 3 ? "hidden" : ""
                       }
                       type="primary"
-                      onClick={() => setStep(3)}
+                      onClick={() => nextStep(3)}
                     >
                       Tiếp tục
                     </Button>
@@ -738,7 +831,7 @@ export default function Login() {
                       type="primary"
                       onClick={() => handleRegister()}
                       loading={isLoading}
-                      disabled={isLoading}
+                      disabled={!acceptTerm}
                     >
                       Hoàn tất
                     </Button>
@@ -755,7 +848,7 @@ export default function Login() {
                     </Link>
                   </Divider>
                 </div>
-                <div className="">
+                <div>
                   <Button block onClick={handleRegisterClick}>
                     Đăng nhập
                   </Button>
