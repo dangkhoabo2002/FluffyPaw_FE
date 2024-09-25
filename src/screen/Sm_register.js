@@ -34,7 +34,8 @@ const { RangePicker } = DatePicker;
 
 export default function Sm_register() {
   const [current, setCurrent] = useState(0);
-  const [register1, setRegister1] = useState([]);
+  const [register1, setRegister1] = useState();
+  const [register2, setRegister2] = useState();
   const [passwordVisible, setPasswordVisible] = React.useState(false);
 
   // NOTICE
@@ -81,11 +82,19 @@ export default function Sm_register() {
   const prev = () => {
     setCurrent(current - 1);
   };
-  const onFinish = (values) => {
-    console.log("Success:", values);
-    console.log("Dihoang:", register1);
-    setRegister1((prev) => prev.concat(values));
+
+  // Thông tin của cửa hàng
+  const onFinish1 = (values) => {
+    console.log("Success:", register1);
+    setRegister1(values);
+    next();
   };
+  const onFinish2 = (values) => {
+    console.log("Success:", register2);
+    setRegister2(values);
+    next();
+  };
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -133,7 +142,7 @@ export default function Sm_register() {
                 icon: <UserOutlined />,
               },
               {
-                title: "Verification",
+                title: "Thông tin cửa hàng chính",
                 icon: <SolutionOutlined />,
               },
               {
@@ -158,7 +167,6 @@ export default function Sm_register() {
                 <div className="flex flex-row gap-6 w-full px-16">
                   <p className="w-[300px]">Mật khẩu</p>
                   <Input.Password
-                    placeholder="input password"
                     visibilityToggle={{
                       visible: passwordVisible,
                       onVisibleChange: setPasswordVisible,
@@ -168,7 +176,6 @@ export default function Sm_register() {
                 <div className="flex flex-row gap-6 w-full px-16">
                   <p className="w-[300px]">Xác nhận mật khẩu</p>
                   <Input.Password
-                    placeholder="input password"
                     visibilityToggle={{
                       visible: passwordVisible,
                       onVisibleChange: setPasswordVisible,
@@ -195,7 +202,7 @@ export default function Sm_register() {
                     type="primary"
                     icon={<ArrowRightOutlined />}
                     iconPosition="end"
-                    onClick={handleCancel}
+                    onClick={() => next()}
                   >
                     Tiếp tục
                   </Button>
@@ -204,110 +211,184 @@ export default function Sm_register() {
             </>
           )}
           {current === 1 && (
-            <Form
-              name="basic"
-              labelCol={{
-                span: 8,
-              }}
-              wrapperCol={{
-                span: 16,
-              }}
-              style={{
-                maxWidth: 600,
-              }}
-              initialValues={{
-                remember: true,
-              }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-            >
-              <Form.Item
-                label="Logo thương hiệu"
-                name="brand_logo"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="Số điện thoại cá nhân"
-                name="sm_phone"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item
-                label="Email cá nhân"
-                name="sm_email"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Địa chỉ cửa hàng chính"
-                name="sm_store_address"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Tên cửa hàng"
-                name="sm_store_name"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Mã số thuế"
-                name="sm_store_address"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
+            <div className="gap-6 pb-8 px-36">
+              <Form
+                name="basic"
+                labelCol={{
+                  span: 8,
+                }}
                 wrapperCol={{
-                  offset: 8,
                   span: 16,
                 }}
+                style={{
+                  maxWidth: 600,
+                }}
+                initialValues={{
+                  remember: true,
+                }}
+                onFinish={onFinish1}
+                onFinishFailed={onFinishFailed}
+                autoComplete="off"
               >
-                <Button type="primary" htmlType="submit">
-                  Submit
+                <Form.Item
+                  label="Tên cửa hàng"
+                  name="sm_store_name"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Hãy nhập tên cửa hàng!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+
+                <Form.Item
+                  label="Đường dây nóng"
+                  name="sm_phone"
+                  rules={[
+                    {
+                      required: false,
+                    },
+                  ]}
+                >
+                  <Input.Password placeholder="Số điện thoại" />
+                </Form.Item>
+                <Form.Item
+                  label="Email cửa hàng"
+                  name="sm_email"
+                  rules={[
+                    {
+                      required: false,
+                    },
+                  ]}
+                >
+                  <Input placeholder="Có thể dùng chung email cá nhân" />
+                </Form.Item>
+
+                <Form.Item
+                  label="Địa chỉ cửa hàng chính"
+                  name="sm_store_address"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Hãy nhập địa chỉ của cửa hàng!",
+                    },
+                  ]}
+                >
+                  <Input placeholder="Địa chỉ" />
+                </Form.Item>
+
+                <Form.Item
+                  label="Mã số thuế"
+                  name="sm_store_taxcode"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Hãy nhập mã số thuế!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+
+                <Form.Item
+                  label="Logo thương hiệu"
+                  name="brand_logo"
+                  rules={[
+                    {
+                      required: false,
+                    },
+                  ]}
+                >
+                  <UploadImg limit={1} />
+                </Form.Item>
+
+                <div className="flex flex-row justify-start gap-8 w-full pl-[156px] ">
+                  <Form.Item
+                    wrapperCol={{
+                      offset: 8,
+                      span: 16,
+                    }}
+                  >
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      icon={<ArrowRightOutlined />}
+                      iconPosition="end"
+                    >
+                      Tiếp tục
+                    </Button>
+                  </Form.Item>
+                  <Button
+                    type="primary"
+                    icon={<ArrowRightOutlined />}
+                    iconPosition="end"
+                    onClick={next}
+                  >
+                    Bỏ qua
+                  </Button>
+                </div>
+              </Form>
+            </div>
+          )}
+          {current === 2 && (
+            <div className="flex flex-col gap-6 pb-8 px-36">
+              <div className="flex flex-row gap-6 w-full px-16">
+                <p className="w-[300px]">Tên đăng nhập</p>
+                <Input />
+              </div>
+              <div className="flex flex-row gap-6 w-full px-16">
+                <p className="w-[300px]">Mật khẩu</p>
+                <Input.Password
+                  visibilityToggle={{
+                    visible: passwordVisible,
+                    onVisibleChange: setPasswordVisible,
+                  }}
+                />
+              </div>
+              <div className="flex flex-row gap-6 w-full px-16">
+                <p className="w-[300px]">Xác nhận mật khẩu</p>
+                <Input.Password
+                  visibilityToggle={{
+                    visible: passwordVisible,
+                    onVisibleChange: setPasswordVisible,
+                  }}
+                />
+              </div>
+              <div className="flex flex-row gap-6 w-full px-16">
+                <p className="w-[300px]">Email cá nhân</p>
+                <Input />
+              </div>
+
+              <div className="flex flex-row gap-6 w-full px-16">
+                <p className="w-[300px]">Hình ảnh đại diện</p>
+                <div className="ml-[-140px]">
+                  <UploadImg limit={1} />
+                </div>
+              </div>
+
+              <div className="flex flex-row justify-end gap-6 w-full px-16">
+                <Button
+                  type="primary"
+                  icon={<ArrowRightOutlined />}
+                  iconPosition="end"
+                  onClick={() => next()}
+                >
+                  Tiếp tục
                 </Button>
-              </Form.Item>
-            </Form>
+              </div>
+              <div className="gap-6 pb-8 px-36">
+                <Button
+                  type="primary"
+                  icon={<ArrowRightOutlined />}
+                  iconPosition="end"
+                  onClick={() => prev()}
+                >
+                  Quay lại
+                </Button>
+              </div>
+            </div>
           )}
         </div>
       </div>

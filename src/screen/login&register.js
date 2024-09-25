@@ -268,8 +268,10 @@ export default function Login() {
           if (response.status === 200) {
             const dataLog = response.data;
             const myDecodedToken = jwtDecode(dataLog.data);
-            console.log(myDecodedToken);
-            sessionStorage.setItem("access_token", dataLog.data.token);
+            localStorage.setItem(
+              "access_token",
+              JSON.stringify(myDecodedToken)
+            );
             navigate("/");
             setIsLoggin(false);
           }

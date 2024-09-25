@@ -1,4 +1,5 @@
 import { Disclosure } from "@headlessui/react";
+import { Popover, Button, notification } from "antd";
 import {
   BellIcon,
   CalendarDaysIcon,
@@ -12,12 +13,15 @@ import Wallet from "../petowner/wallet.png";
 import Logout from "../petowner/logout.png";
 import Info from "../petowner/information.png";
 import { Link, useNavigate } from "react-router-dom";
-import { Popover, Button } from "antd";
+import { NotificationRealTime } from "../notificationSetting";
+import React, { useEffect } from "react";
 
 export default function Navbar() {
+  // const [api, contextHolder] = notification.useNotification();
+
   const navigate = useNavigate();
-  const isLogged = sessionStorage.getItem("access_token");
-  console.log(isLogged);
+  const isLogged = localStorage.getItem("access_token");
+
   const notification = (
     <div style={{ width: "300px" }}>
       <h1
@@ -54,6 +58,7 @@ export default function Navbar() {
   const handleLogout = () => {
     navigate("/login");
     sessionStorage.clear();
+    localStorage.clear();
   };
   const content = (
     <div style={{ width: "240px" }}>
@@ -102,11 +107,31 @@ export default function Navbar() {
   const navigateLogin = () => {
     navigate("/login");
   };
+
+  const chatNotification = NotificationRealTime();
+  // NOTIFICATION
+  useEffect(() => {
+    const noticToast = async () => {
+      console.log("THONG BAO");
+      // api.info({
+      //   message: `Notification `,
+      //   description: "Thong bao",
+      //   placement: "bottomRight",
+      // });
+    };
+
+    if (chatNotification) {
+      console.log("Notification", chatNotification);
+      noticToast();
+    }
+  }, [chatNotification]);
   return (
     <Disclosure
       as="nav"
       className="bg-transparent fixed top-0 right-0 left-0 z-10 backdrop-blur-3xl"
     >
+      {/* {contextHolder} */}
+
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-24 items-center justify-between">
           <div className="flex flex-1 justify-start gap-72">

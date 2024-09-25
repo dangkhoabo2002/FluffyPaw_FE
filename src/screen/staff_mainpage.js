@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   HistoryOutlined,
-  UserOutlined,
   HomeOutlined,
   FormOutlined,
   LineChartOutlined,
@@ -94,6 +93,8 @@ const MainPage = () => {
         break;
       case "7":
         navigate("/store/staff_store_services");
+        break;
+      default:
         break;
     }
   };
