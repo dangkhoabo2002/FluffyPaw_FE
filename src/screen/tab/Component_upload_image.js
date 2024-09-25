@@ -5,6 +5,7 @@ const App = ({ limit }) => {
   const [fileList, setFileList] = useState([]);
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
+    console.log(fileList);
   };
   const onPreview = async (file) => {
     let src = file.url;

@@ -9,7 +9,7 @@ const prefixSelector = (
     +84
   </Form.Item>
 );
-export default function Po_detail() {
+export default function Po_detail(profile) {
   const [isEdit, setIsEdit] = useState(false);
 
   return (
@@ -26,7 +26,6 @@ export default function Po_detail() {
             </button>
             <h1 className="text-[26px]">Quay lại</h1>
           </div>
-
           <div className="flex flex-col gap-4 px-20 pt-14">
             <div className="grid grid-cols-2">
               <div className="">
@@ -120,7 +119,9 @@ export default function Po_detail() {
               </div>
               <div className="flex flex-col gap-6 w-[400px] items-left">
                 <div className="rounded-lg w-auto px-6 py-1 border border-gray-300">
-                  <h1 className="text-pink-600 text-[16px]"> fluffypaw_user</h1>
+                  <h1 className="text-pink-600 text-[16px]">
+                    {profile.profile?.username}
+                  </h1>
                 </div>
 
                 <div className="rounded-lg w-auto px-6 py-1 border border-gray-300">
