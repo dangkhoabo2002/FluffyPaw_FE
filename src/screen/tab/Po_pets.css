@@ -7,11 +7,25 @@
   background-color: white;
   align-items: center;
   border: 2px solid #34a550;
+  color: black;
+}
+
+.unactive_petCard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 12px;
+  width: 500px;
+  height: 200px;
+  background-color: #c0c0cc;
+  align-items: center;
+  border: 2px solid #757575;
+  color: black;
 }
 
 .petCard:hover {
   transform: scale(1.02);
   transition: 0.2s all;
+  color: black;
 }
 
 .petIcon > img {
@@ -33,12 +47,12 @@
   background-color: #fdcedf;
   border-radius: 0px 12px 12px 0px;
   padding: 1px 16px 1px 12px;
+  color: black;
 }
 
 #petName2 {
   font-size: 12px;
   border-radius: 0px 0px;
-
 }
 
 .addPet:hover {

@@ -190,7 +190,7 @@ export default function Sm_register() {
                 <div className="flex flex-row gap-6 w-full px-16">
                   <p className="w-[300px]">Hình ảnh đại diện</p>
                   <div className="ml-[-140px]">
-                    <UploadImg limit={1} />
+                    <UploadImg limit={1} type={"card"} />
                   </div>
                 </div>
 
@@ -301,7 +301,7 @@ export default function Sm_register() {
                     },
                   ]}
                 >
-                  <UploadImg limit={1} />
+                  <UploadImg limit={1} type={"card"} />
                 </Form.Item>
 
                 <div className="flex flex-row justify-start gap-8 w-full pl-[156px] ">
@@ -364,7 +364,7 @@ export default function Sm_register() {
               <div className="flex flex-row gap-6 w-full px-16">
                 <p className="w-[300px]">Hình ảnh đại diện</p>
                 <div className="ml-[-140px]">
-                  <UploadImg limit={1} />
+                  <UploadImg limit={1} type={"circle"} />
                 </div>
               </div>
 

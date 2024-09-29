@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Navbar from "../component/petowner/navbar";
 import { Tabs, Button } from "antd";
@@ -8,9 +8,40 @@ import PetHistory from "../screen/tab/Po_petDetail_history";
 import PetVaccine from "../screen/tab/Po_petDetail_vaccine";
 import PetReminder from "../screen/tab/Po_petDetail_reminder";
 import "../css/Po_profile.css";
-import { Link } from "react-router-dom";
+import axios from "axios";
 
-export default function profile() {
+import { Link, useParams } from "react-router-dom";
+
+export default function Profile() {
+  const [loadingApi, setLoadingApi] = useState();
+  const [detail, setDetail] = useState();
+  const { petId } = useParams();
+  const handleGetPetDetail = async () => {
+    console.log(petId);
+    setLoadingApi(true);
+    try {
+      const response = await axios.get(
+        `https://fluffypaw.azurewebsites.net/api/Pet/GetPet?petId=${petId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(
+              "undecode_access_token"
+            )}`,
+          },
+        }
+      );
+      setDetail(response.data.data);
+      console.log(detail);
+      setLoadingApi(false);
+    } catch (err) {
+      console.log(err.message);
+      setLoadingApi(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetPetDetail();
+  }, []);
   return (
     <>
       <Navbar />
@@ -49,7 +80,7 @@ export default function profile() {
               tab={<h1 className="text-[20px]">Thông tin của bé</h1>}
               key="1"
             >
-              <PetProfile />
+              <PetProfile petData={detail} />
             </Tabs.TabPane>
             <Tabs.TabPane
               tab={<h1 className="text-[20px]">Hồ sơ bệnh lý - Đã nhập</h1>}

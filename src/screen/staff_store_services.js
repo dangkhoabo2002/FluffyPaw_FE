@@ -116,7 +116,7 @@ export default function Staff_store_services() {
                     height: 120,
                     resize: "none",
                   }}
-                />{" "}
+                />
               </div>
               <div className="flex flex-row justify-center items-center pt-3">
                 <h1 className="text-[20px] w-[300px] text-right pr-10">

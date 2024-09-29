@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Carousel, Button, Popover, Modal } from "antd";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import Navbar from "../component/petowner/navbar";
 import Footer from "../component/footer";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 
 import "../css/landing.css";
 import headImg from "../asset/wallhaven-4vgogl_1920x1080.png";
-import carouselImg1 from "../asset/wallhaven-4l823l_3840x1080.png";
 import dogIcon from "../asset/dogIcon.png";
 import catIcon from "../asset/catIcon.png";
 import FormModal from "../screen/tab/Po_addPet_modal";
@@ -16,11 +17,6 @@ export default function Landing() {
   // Ask add pet after login
   const [open, setOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openAddPet = () => {
-    setOpen(false);
-    setIsModalOpen(true);
-  };
 
   const handleCancel = () => {
     setOpen(false);
@@ -38,6 +34,39 @@ export default function Landing() {
       </p>
     </div>
   );
+
+  // GET PET LIST
+  const [petList, setPetList] = useState();
+  const [loadingApi, setLoadingApi] = useState();
+  const handleGetPetList = async () => {
+    try {
+      const response = await axios.get(
+        "https://fluffypaw.azurewebsites.net/api/Pet/GetAllPets",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(
+              "undecode_access_token"
+            )}`,
+          },
+        }
+      );
+      setPetList(response.data.data);
+      console.log(response.data.data);
+      setLoadingApi(false);
+    } catch (err) {
+      console.log(err.message);
+      setLoadingApi(false);
+    }
+  };
+  const openAddPet = () => {
+    setOpen(false);
+    setIsModalOpen(true);
+    console.log(petList);
+  };
+  useEffect(() => {
+    handleGetPetList();
+  }, []);
+
   return (
     <>
       <nav>
@@ -50,76 +79,77 @@ export default function Landing() {
         <div className="petMenu py-10">
           {/* Owner Pet */}
           <h1 className="titleSection">Thú cưng của bạn</h1>
-          <div className="flex flex-row flex-wrap gap-10 py-10">
-            <Link to={`/po_profile/po_petdetail`}>
-              <div className="existPet gap-3">
-                <img alt="dogIcon" src={dogIcon} />
-                <span className="flex flex-col py-6">
-                  <h2 className="w-full font-bold text-xl">Labubu</h2>
-                  <Popover content={content} title="Đặc điểm:" trigger="hover">
-                    <p className="w-[100px] truncate text-[#999999] text-[14px]">
-                      Chấm đen mắt trái đỏ liệm ở mắt phải, màu hồng ngay đuôi,
-                      chấm trắng ngay bụng.
-                    </p>
-                  </Popover>
-                </span>
-              </div>
-            </Link>
-            <Link to={`/po_profile/po_petdetail`}>
-              <div className="existPet">
-                <img alt="catIcon" src={catIcon} style={{ width: "120px" }} />
-                <span className="flex flex-col py-6">
-                  <h2 className="w-full font-bold text-xl">Bingchilling</h2>
-                  <p className="w-[100px] truncate text-[#999999] text-[14px]">
-                    Chấm đen mắt trái đỏ liệm ở mắt phải, màu hồng ngay đuôi,
-                    chấm trắng ngay bụng.
-                  </p>
-                </span>
-              </div>
-            </Link>
+          <div className="flex flex-row flex-wrap gap-8 py-10">
+            {petList &&
+              petList?.map((pet) => (
+                <Link to={`/po_profile/po_petdetail/${pet.id}`} key={pet.id}>
+                  <div className="existPet gap-3">
+                    <img
+                      alt="dogIcon"
+                      src={pet.petCategory === "Cat" ? dogIcon : catIcon}
+                    />
+                    <span className="flex flex-col py-6">
+                      <h2 className="w-full font-bold text-xl">{pet?.name}</h2>
+                      <Popover
+                        content={content}
+                        title="Đặc điểm:"
+                        trigger="hover"
+                      >
+                        <p className="w-[100px] truncate text-[#999999] text-[14px]">
+                          {pet.behaviorCategory}
+                        </p>
+                      </Popover>
+                    </span>
+                  </div>
+                </Link>
+              ))}
 
-            <button onClick={openAddPet}>
-              <div className="addPetSection">
-                <PlusCircleIcon class="h-20 w-20 text-[#F2BDCB] hover:text-[#f7a6bb]" />
-                <span className="flex flex-col py-6 pl-4">
-                  <h2 className="w-full font-bold text-xl">Thêm thú cưng</h2>
-                  <p className="w-full text-[#999999] font-mono text-[12px]">
-                    Hiện sở hữu 2 thú cưng
-                  </p>
-                </span>
-              </div>
-            </button>
+            {petList && petList?.length < 5 ? (
+              <button onClick={openAddPet}>
+                <div className="addPetSection">
+                  <PlusCircleIcon class="h-20 w-20 text-[#F2BDCB] hover:text-[#f7a6bb]" />
+                  <span className="flex flex-col py-6 pl-4">
+                    <h2 className="w-full font-bold text-xl">Thêm thú cưng</h2>
+                    <p className="w-full text-[#999999]  text-[12px]">
+                      Hiện sở hữu {petList?.length} thú cưng
+                    </p>
+                  </span>
+                </div>
+              </button>
+            ) : (
+              ""
+            )}
           </div>
 
           {/* Carousel */}
 
           <div className="carouselAds">
-            <Carousel autoplay>
+            <Carousel autoplay className="-z-10">
               <div>
                 <img
                   alt="serviceImg"
-                  src={carouselImg1}
+                  src="https://plus.unsplash.com/premium_photo-1661674514856-17f29bd480b6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                   className="contentStyle"
                 />
               </div>
               <div>
                 <img
                   alt="serviceImg"
-                  src={carouselImg1}
+                  src="https://media.istockphoto.com/id/1370365587/vi/anh/m%C3%A8o-b%C3%A9o-ph%C3%AC-ngh%E1%BB%8Bch-ng%E1%BB%A3m-m%E1%BA%AFt-to-nh%C3%ACn-v%C3%A0o-m%E1%BB%A5c-ti%C3%AAu.jpg?s=2048x2048&w=is&k=20&c=mnFu9eFesvNfTMTkbhzjJIxF0m0DdJr2iMzCYbrELxM="
                   className="contentStyle"
                 />
               </div>
               <div>
                 <img
                   alt="serviceImg"
-                  src={carouselImg1}
+                  src="https://images.unsplash.com/photo-1494256997604-768d1f608cac?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cGV0fGVufDB8fDB8fHww"
                   className="contentStyle"
                 />
               </div>
               <div>
                 <img
                   alt="serviceImg"
-                  src={carouselImg1}
+                  src="https://hd.wallpaperswide.com/thumbs/funny_lazy_cat-t2.jpg"
                   className="contentStyle"
                 />
               </div>
@@ -312,8 +342,9 @@ export default function Landing() {
         width={1200}
         footer={(_, {}) => (
           <>
-            <Button type="primary">Thêm thú cưng</Button>
-            <Button onClick={handleCancelAddPet}>Hủy bỏ</Button>
+            <div className="pr-40">
+              <Button onClick={handleCancelAddPet}>Hủy bỏ</Button>
+            </div>
           </>
         )}
       >

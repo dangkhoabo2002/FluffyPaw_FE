@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
-const App = ({ limit }) => {
+const App = ({ limit, type }) => {
   const [fileList, setFileList] = useState([]);
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -24,7 +24,7 @@ const App = ({ limit }) => {
   return (
     <ImgCrop rotationSlider>
       <Upload
-        listType="picture-card"
+        listType={type === "circle" ? "picture-circle" : "picture-card"}
         fileList={fileList}
         onChange={onChange}
         onPreview={onPreview}
