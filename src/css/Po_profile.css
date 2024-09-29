@@ -1,8 +1,8 @@
 .profileContainer {
-  padding: 0px 10%;
+  padding: 0px 10% 5% 10%;
 }
 
-.profileHeader>img {
+.profileHeader > img {
   object-fit: cover;
   width: 1620px;
   height: 500px;
@@ -13,7 +13,7 @@
   padding-bottom: 40px;
 }
 
-.profileAvatar>img {
+.profileAvatar > img {
   object-fit: cover;
   width: 220px;
   height: 220px;
@@ -24,7 +24,8 @@
 }
 
 .profileContent {
-  height: 1150px;
+  height: auto;
+  padding-bottom: 60px;
   border-radius: 12px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
@@ -91,7 +92,66 @@
   box-shadow: 5px 5px 0px rgb(140, 32, 212);
   transition-duration: 0.3s;
 }
+.un_Btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 180px;
+  height: 40px;
+  border: none;
+  padding: 0px 20px;
+  background-color: rgb(146, 146, 146);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px rgb(85, 85, 85);
+  transition-duration: 0.3s;
+}
+.low_Btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 180px;
+  height: 40px;
+  border: none;
+  padding: 0px 20px;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px rgb(197, 196, 196);
+  transition-duration: 0.3s;
+}
 
+.cancel_Btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 180px;
+  height: 40px;
+  border: none;
+  padding: 0px 20px;
+  background-color: #f7d9ea;
+  color: black;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0px rgb(197, 196, 196);
+  transition-duration: 0.3s;
+}
+.low_svg {
+  width: 13px;
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+  fill: black;
+  transition-duration: 0.3s;
+}
 .svg {
   width: 13px;
   position: absolute;
@@ -101,11 +161,16 @@
   transition-duration: 0.3s;
 }
 
-.Btn:hover {
+.Btn:hover,
+.low_Btn:hover,
+.un_Btn:hover,
+.cancel_Btn:hover {
   color: transparent;
 }
 
-.Btn:hover svg {
+.Btn:hover svg,
+.low_Btn:hover,
+.cancel_Btn:hover svg {
   right: 43%;
   margin: 0;
   padding: 0;
@@ -113,12 +178,12 @@
   transition-duration: 0.3s;
 }
 
-.Btn:active {
+.Btn:active,
+.low_Btn:active {
   transform: translate(3px, 3px);
   transition-duration: 0.3s;
-  box-shadow: 2px 2px 0px rgb(140, 32, 212);
+  box-shadow: 2px 2px 0px rgb(87, 87, 87);
 }
-
 
 /* Back & Previous Button */
 .button-container {

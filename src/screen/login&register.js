@@ -272,6 +272,7 @@ export default function Login() {
               "access_token",
               JSON.stringify(myDecodedToken)
             );
+            localStorage.setItem("undecode_access_token", dataLog.data);
             navigate("/");
             setIsLoggin(false);
           }

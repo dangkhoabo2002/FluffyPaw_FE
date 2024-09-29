@@ -47,14 +47,15 @@ function App() {
         <Route path="/" element={<LandingPage />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/term_policy" element={<TermPolicy />}></Route>
-
         {/* Pet Owner */}
         <Route path="/po_profile" element={<PoProfile />}></Route>
-        <Route path="/po_profile/po_petdetail" element={<PetDetail />}></Route>
+        <Route
+          path="/po_profile/po_petdetail/:petId"
+          element={<PetDetail />}
+        ></Route>
         <Route path="/po_wallet" element={<PoWallet />}></Route>
         <Route path="/dog_service" element={<DogService />}></Route>
         <Route path="/cat_service" element={<CatService />}></Route>
-
         {/* Staff */}
         <Route path="/store" element={<StaffMainPage />}>
           <Route
@@ -75,9 +76,7 @@ function App() {
           ></Route>
           <Route path="/store/staff_profile" element={<StaffProfile />}></Route>
         </Route>
-
         {/* Store Manager  */}
-
         <Route path="/store_manager" element={<SMMainPage />}>
           <Route
             path="/store_manager/dashboard"
@@ -97,17 +96,13 @@ function App() {
           ></Route>
           <Route path="/store_manager/sm_wallet" element={<SMWallet />}></Route>
         </Route>
-
         <Route path="/sm_register" element={<SmRegister />}></Route>
-
         <Route path="/services" element={<Services />}></Route>
         <Route path="/service_booking" element={<ServiceBooking />}></Route>
-
         <Route
           path="/service_booking_type2"
           element={<ServiceBooking2 />}
         ></Route>
-
         {/* Test */}
       </Routes>
     </div>
