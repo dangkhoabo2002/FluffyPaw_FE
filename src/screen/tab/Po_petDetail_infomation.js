@@ -8,8 +8,9 @@ import {
   notification,
   Modal,
   Button,
+  InputNumber,
 } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Skeleton } from "antd";
 
 import axios from "axios";
@@ -19,7 +20,8 @@ const { TextArea } = Input;
 
 export default function Po_petDetail_infomation(petData) {
   const navigate = useNavigate();
-
+  const petType = petData.petData?.petType.name;
+  const petBehavior = petData.petData?.behaviorCategory.name;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -38,7 +40,7 @@ export default function Po_petDetail_infomation(petData) {
 
     try {
       const response = await axios.delete(
-        `https://fluffypaw.azurewebsites.net/api/Pet/DeletePet?petId=${petData.petData.id}`,
+        `https://fluffypaw.azurewebsites.net/api/Pet/DeletePet/${petData.petData.id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem(
@@ -83,6 +85,12 @@ export default function Po_petDetail_infomation(petData) {
       api.warning({
         message: "Sai định dạng tên tài khoản !",
         description: "Vui lòng nhập tối thiểu 8 kí tự và tối đa 100 kí tự.",
+        placement: "bottomRight",
+      });
+    } else if (type === "success_change_status") {
+      api.success({
+        message: "Cập nhật trạng thái thành công.",
+        description: "Hồ sơ thú cưng đã được thay đổi trạng tha.",
         placement: "bottomRight",
       });
     } else if (type === "unvalid_phone") {
@@ -191,10 +199,66 @@ export default function Po_petDetail_infomation(petData) {
     }
   };
 
+  // GET PET TYPE DATA
+  const [petDogList, setPetDogList] = useState();
+  const [petCatList, setPetCatList] = useState();
+
+  const dogList = petDogList?.map((item) => ({
+    value: item?.id,
+    label: item?.name,
+  }));
+  const catList = petCatList?.map((item) => ({
+    value: item?.id,
+    label: item?.name,
+  }));
+  const handleGetTypeList = async (petTypeId) => {
+    try {
+      const response = await axios.get(
+        `https://fluffypaw.azurewebsites.net/api/Pet/GetAllPetTypeByPetCategory/${petTypeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(
+              "undecode_access_token"
+            )}`,
+          },
+        }
+      );
+      if (petTypeId === 1) setPetDogList(response.data.data);
+      else setPetCatList(response.data.data);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   // UPDATE PET PROFILE
+  const [file, setFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewUrl(reader.result);
+    };
+
+    if (selectedFile) {
+      reader.readAsDataURL(selectedFile);
+    }
+  };
+
+  const onChangeUpdateWeight = (value) => {
+    setUpdateData((prevData) => ({
+      ...prevData,
+      weight: value,
+    }));
+  };
   const handleUpdatePet = async () => {
     setLoadingApi(true);
-    console.log(behaviors);
+
+    console.log(behaviorCategoryId);
+
     if (
       updateData?.petCategoryId.length < 1 ||
       updateData?.name.length < 1 ||
@@ -205,50 +269,116 @@ export default function Po_petDetail_infomation(petData) {
       updateData?.decription.length < 1 ||
       behaviorCategoryId < 1 ||
       dob?.length < 1
-    )
+    ) {
       openNotificationWithIcon("info_empty_field");
-    else {
-      try {
-        const response = await axios.patch(
-          `https://fluffypaw.azurewebsites.net/api/Pet/UpdatePet?petId=${petData.petData.id}`,
-          {
-            image: "string",
-            petCategoryId: updateData?.petCategoryId,
-            petTypeId: 1,
-            behaviorCategoryId: behaviorCategoryId,
-            name: updateData?.name || petData.petData?.name,
-            sex: updateData?.sex || petData.petData?.sex,
-            weight: updateData?.weight || petData.petData?.weight,
-            dob: dob || formattedDate,
-            allergy: updateData?.allergy || petData.petData?.allergy,
-            microchipNumber:
-              updateData?.microchipNumber || petData.petData?.microchipNumber,
-            decription: updateData?.decription || petData.petData?.decription,
-            isNeuter: updateData?.isNeuter || petData.petData?.isNeuter,
-          }
-        );
+    }
 
-        if (response.status === 200) {
-          openNotificationWithIcon("success_update");
+    // Tạo FormData
+    const formData = new FormData();
+    if (file) formData.append("petImage", file);
+    formData.append(
+      "petCategoryId",
+      updateData.petCategoryId || petData.petData?.petCategoryId
+    );
+    formData.append(
+      "petTypeId",
+      updateData.petTypeId || petData.petData?.petCategoryId
+    );
+    formData.append(
+      "behaviorCategoryId",
+      behaviorCategoryId || petData.petData.behaviorCategory?.id
+    );
+    formData.append("name", updateData.name || petData.petData?.name);
+    formData.append("sex", updateData.sex || petData.petData?.sex);
+    formData.append("weight", updateData.weight || petData.petData?.weight);
+    formData.append("dob", dob || formattedDate);
+    formData.append("allergy", updateData.allergy || petData.petData?.allergy);
+    formData.append(
+      "microchipNumber",
+      updateData?.microchipNumber || petData.petData?.microchipNumber
+    );
+    formData.append(
+      "decription",
+      updateData?.decription || petData.petData?.decription
+    );
+    formData.append(
+      "isNeuter",
+      updateData?.isNeuter !== null
+        ? updateData?.isNeuter
+        : petData.petData?.isNeuter
+    );
 
-          setTimeout(() => {
-            setLoadingApi(false);
-            setIsEdit(false);
-            navigate(0);
-          }, 2000);
+    try {
+      const response = await axios.patch(
+        `https://fluffypaw.azurewebsites.net/api/Pet/UpdatePet/${petData.petData.id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(
+              "undecode_access_token"
+            )}`,
+            "Content-Type": "multipart/form-data",
+          },
         }
-      } catch (err) {
-        console.log(`Error ${err.response.status}: ${err.response.data}`);
+      );
 
-        console.log(err.message);
-        setLoadingApi(false);
+      if (response.status === 200) {
+        openNotificationWithIcon("success_update");
+
+        setTimeout(() => {
+          setLoadingApi(false);
+          setIsEdit(false);
+          navigate(0);
+        }, 2000);
       }
+    } catch (err) {
+      console.log(err);
+      console.log(`Error ${err.response.status}: ${err.response.data}`);
+      console.log(err.message);
+      setLoadingApi(false);
+    }
+
+    setLoadingApi(false);
+  };
+
+  // HIDE / UNHIDE PET
+  const [openChangeStatus, setOpenChangeStatus] = useState(false);
+  const [isHiding, setIsHiding] = useState(false);
+
+  const handleCancelChangeStatus = () => {
+    setOpenChangeStatus(false);
+  };
+
+  const handleChangePetStatus = async () => {
+    setIsHiding(true);
+    try {
+      const response = await axios.patch(
+        `https://fluffypaw.azurewebsites.net/api/Pet/ActiveDeactivePet/${petData.petData.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(
+              "undecode_access_token"
+            )}`,
+          },
+        }
+      );
+      handleCancelChangeStatus();
+      openNotificationWithIcon("success_change_status");
+      setIsHiding(false);
+    } catch (err) {
+      console.log(err.response.data.message);
+      openNotificationWithIcon(err.response.data.message);
+      handleCancelChangeStatus();
+      setIsHiding(false);
     }
   };
 
   useEffect(() => {
     handleGetBehaviorList();
+    handleGetTypeList(1);
+    handleGetTypeList(2);
   }, []);
+
   return (
     <>
       {contextHolder}
@@ -265,7 +395,10 @@ export default function Po_petDetail_infomation(petData) {
                 objectFit: "cover",
                 borderRadius: "12px",
               }}
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Juvenile_Ragdoll.jpg/800px-Juvenile_Ragdoll.jpg"
+              src={
+                petData.petData?.image ||
+                "https://www.shutterstock.com/image-vector/dog-illustration-art-drawing-600nw-2476200107.jpg"
+              }
             />
           </div>
           <div className="flex flex-row">
@@ -273,7 +406,6 @@ export default function Po_petDetail_infomation(petData) {
               <div className="grid grid-cols-2 items-center">
                 <div className="flex flex-row justify-start items-start gap-4">
                   <div className="flex flex-col gap-7">
-                    {/* <button onClick={test}>Test</button> */}
                     <h1 className="text-[20px]">Tên</h1>
                     <h1 className="text-[20px]">Giới tính</h1>
                     <h1 className="text-[20px]">Chủng loài</h1>
@@ -331,7 +463,7 @@ export default function Po_petDetail_infomation(petData) {
                       <>
                         <div className="rounded-lg w-auto px-6 py-1 border border-gray-300">
                           <h1 className="text-pink-600 text-[16px]">
-                            {petData.petData?.petCategoryName === "Dog"
+                            {petData.petData?.petCategoryId === 1
                               ? "Chó"
                               : "Mèo"}
                           </h1>
@@ -341,15 +473,20 @@ export default function Po_petDetail_infomation(petData) {
                     {/* TYPE OF PET */}
 
                     {isEdit === true ? (
-                      <Input
-                        placeholder={petData.petData?.petTypeName}
-                        size="large"
+                      <Select
+                        showSearch
+                        placeholder={petType}
+                        optionFilterProp="label"
+                        onChange={onChange}
+                        options={
+                          updateData.petCategoryId === 1 ? dogList : catList
+                        }
                       />
                     ) : (
                       <>
                         <div className="rounded-lg w-auto px-6 py-1 border border-gray-300">
                           <h1 className="text-pink-600 text-[16px]">
-                            {petData.petData?.petTypeName}
+                            {petType}
                           </h1>
                         </div>
                       </>
@@ -357,10 +494,14 @@ export default function Po_petDetail_infomation(petData) {
 
                     {/* WEIGHT */}
                     {isEdit === true ? (
-                      <Input
+                      <InputNumber
+                        size
+                        min={1}
+                        max={30}
+                        addonAfter="kg"
                         placeholder={petData.petData?.weight}
-                        size="large"
-                        onChange={onChangeUpdateInput("weight")}
+                        style={{ width: "120px" }}
+                        onChange={onChangeUpdateWeight}
                       />
                     ) : (
                       <>
@@ -392,6 +533,7 @@ export default function Po_petDetail_infomation(petData) {
                 </div>
                 <div className="flex flex-row justify-start items-start gap-4">
                   <div className="flex flex-col gap-7">
+                    <h1 className="text-[20px]">Hình ảnh</h1>
                     <h1 className="text-[20px]">Ngày sinh</h1>
                     <h1 className="text-[20px]">Mã số chip</h1>
                     <h1 className="text-[20px]">Đã triệt sản hay chưa</h1>
@@ -401,6 +543,38 @@ export default function Po_petDetail_infomation(petData) {
                   </div>
 
                   <div className="flex flex-col gap-6 w-[200px] items-left">
+                    {/*IMAGE*/}
+
+                    {isEdit === true && (
+                      <>
+                        {" "}
+                        <div className="flex flex-col">
+                          <input
+                            type="file"
+                            id="fileInput"
+                            onChange={handleFileChange}
+                            placeholder="Chọn tệp"
+                            style={{ display: "none" }}
+                          />
+                          <label
+                            htmlFor="fileInput"
+                            style={{
+                              cursor: "pointer",
+                              padding: "6px 10px",
+                              color: "gray",
+                              border: "1px dashed pink",
+                              textAlign: "center",
+                              borderRadius: "12px",
+                              width: "200px",
+                            }}
+                            className="shadow-md hover:shadow-none bg-[#ffe4f3] hover:bg-pink-200 "
+                          >
+                            Chọn ảnh
+                          </label>
+                        </div>
+                      </>
+                    )}
+
                     {/*DATE*/}
 
                     {isEdit === true ? (
@@ -416,10 +590,9 @@ export default function Po_petDetail_infomation(petData) {
                     )}
 
                     {/*MICROCHIP*/}
-
                     {isEdit === true ? (
                       <Input
-                        placeholder={petData.petData?.microchipNumber}
+                        placeholder={petData.petData?.micr}
                         size="large"
                         onChange={onChangeUpdateInput("microchipNumber")}
                       />
@@ -427,7 +600,9 @@ export default function Po_petDetail_infomation(petData) {
                       <>
                         <div className="rounded-lg w-auto px-6 py-1 border border-gray-300">
                           <h1 className="text-pink-600 text-[16px]">
-                            {petData.petData?.microchipNumber || "Không có"}
+                            {petData.petData?.microchipNumber === "none"
+                              ? "Không có"
+                              : petData.petData?.microchipNumber}
                           </h1>
                         </div>
                       </>
@@ -492,7 +667,7 @@ export default function Po_petDetail_infomation(petData) {
                       <>
                         <div className="rounded-lg w-auto px-6 py-1 border border-gray-300">
                           <h1 className="text-pink-600 text-[16px]">
-                            {petData.petData?.behaviorCategoryName}
+                            {petBehavior}
                           </h1>
                         </div>
                       </>
@@ -509,11 +684,7 @@ export default function Po_petDetail_infomation(petData) {
               <TextArea
                 showCount
                 maxLength={3000}
-                placeholder={
-                  petData.petData?.decription === "none"
-                    ? "Không có"
-                    : petData.petData?.decription
-                }
+                placeholder={petData.petData?.decription || "Không có"}
                 className="rounded-lg w-full px-6 py-1 border border-gray-300"
                 onChange={onChangeUpdateInput("decription")}
               />
@@ -521,7 +692,9 @@ export default function Po_petDetail_infomation(petData) {
               <>
                 <div className="rounded-lg w-auto px-6 py-1 border border-gray-300 ml-[-10px]">
                   <h1 className="text-pink-600 text-[16px]">
-                    {petData.petData?.decription || "Không có"}
+                    {petData.petData?.decription === "none"
+                      ? "Không có"
+                      : petData.petData?.decription}
                   </h1>
                 </div>
               </>
@@ -587,7 +760,7 @@ export default function Po_petDetail_infomation(petData) {
                 style={{
                   width: "150px",
                 }}
-                onClick={() => setIsEdit(true)}
+                onClick={() => setOpenChangeStatus(true)}
               >
                 Ẩn thông tin
                 <svg className="svg" viewBox="0 0 512 512">
@@ -646,6 +819,33 @@ export default function Po_petDetail_infomation(petData) {
             ]}
           >
             <p>Hành động của bạn sẽ không thể quay lại được, bạn chắc chứ ?</p>
+          </Modal>
+
+          {/* MODAL HIDE/ UNHIDE PET */}
+
+          <Modal
+            title="Bạn muốn ẩn thú cưng ?"
+            open={openChangeStatus}
+            onCancel={handleCancelChangeStatus}
+            footer={[
+              <>
+                <Button onClick={handleCancelChangeStatus} disabled={isHiding}>
+                  Thoát
+                </Button>
+                <Button
+                  onClick={handleChangePetStatus}
+                  type="primary"
+                  disabled={isHiding}
+                >
+                  {isHiding === true ? <LoadingOutlined /> : <></>}
+                </Button>
+              </>,
+            ]}
+          >
+            <p>
+              Thú cưng của bạn sẽ được ẩn đi và có thể kích hoạt lại khi bạn
+              muốn.
+            </p>
           </Modal>
         </div>
       )}

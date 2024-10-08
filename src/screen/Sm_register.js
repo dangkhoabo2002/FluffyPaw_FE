@@ -5,14 +5,13 @@ import {
   SolutionOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Steps } from "antd";
 import {
   Button,
-  Cascader,
-  DatePicker,
+  Radio,
+  Result,
   Form,
   Input,
-  InputNumber,
+  Steps,
   Mentions,
   Select,
   TreeSelect,
@@ -29,8 +28,6 @@ import {
 } from "@ant-design/icons";
 import UploadImg from "./tab/Component_upload_image";
 import { Link } from "react-router-dom";
-
-const { RangePicker } = DatePicker;
 
 export default function Sm_register() {
   const [current, setCurrent] = useState(0);
@@ -133,28 +130,28 @@ export default function Sm_register() {
 
       <div id="recapcha"></div>
       <div className="flex justify-center pt-12 w-screen">
-        <div className="boxLogin w-[60%] h-auto bg-white rounded-3xl overflow-hidden relative pl-6 px-16 pt-6">
-          <Steps
-            current={current}
-            items={[
-              {
-                title: "Thiết lập tài khoản",
-                icon: <UserOutlined />,
-              },
-              {
-                title: "Thông tin cửa hàng chính",
-                icon: <SolutionOutlined />,
-              },
-              {
-                title: "Pay",
-                icon: <LoadingOutlined />,
-              },
-              {
-                title: "Done",
-                icon: <SmileOutlined />,
-              },
-            ]}
-          />
+        <div className="boxLogin w-[60%] h-auto bg-white rounded-3xl overflow-hidden relative pl-6  pt-6">
+          <div className="px-16 w-full">
+            <Steps
+              size="small"
+              current={current}
+              items={[
+                {
+                  title: <p className="font-semibold">Tạo tài khoản</p>,
+                },
+                {
+                  title: <p className="font-semibold">Tạo cửa hàng</p>,
+                },
+                {
+                  title: <p className="font-semibold">Xác thực danh tính</p>,
+                },
+                {
+                  title: <p className="font-semibold">Hoàn tất</p>,
+                },
+              ]}
+            />
+          </div>
+
           <Divider />
 
           {current === 0 && (
@@ -190,7 +187,7 @@ export default function Sm_register() {
                 <div className="flex flex-row gap-6 w-full px-16">
                   <p className="w-[300px]">Hình ảnh đại diện</p>
                   <div className="ml-[-140px]">
-                    <UploadImg limit={1} type={"card"} />
+                    <UploadImg limit={1} type={"card"} name={"smAddAvatar"}/>
                   </div>
                 </div>
 
@@ -231,16 +228,16 @@ export default function Sm_register() {
                 autoComplete="off"
               >
                 <Form.Item
-                  label="Tên cửa hàng"
+                  label="Tên thương hiệu"
                   name="sm_store_name"
                   rules={[
                     {
                       required: true,
-                      message: "Hãy nhập tên cửa hàng!",
+                      message: "Hãy nhập tên thương hiệu!",
                     },
                   ]}
                 >
-                  <Input />
+                  <Input maxLength={40} showCount />
                 </Form.Item>
 
                 <Form.Item
@@ -248,22 +245,28 @@ export default function Sm_register() {
                   name="sm_phone"
                   rules={[
                     {
-                      required: false,
+                      required: true,
+                      message: "Nhập số điện thoại Hotline.",
                     },
                   ]}
                 >
-                  <Input.Password placeholder="Số điện thoại" />
+                  <Input placeholder="Số điện thoại" maxLength={12} showCount />
                 </Form.Item>
                 <Form.Item
                   label="Email cửa hàng"
                   name="sm_email"
                   rules={[
                     {
-                      required: false,
+                      required: true,
+                      message: "Hãy nhập email của bạn.",
                     },
                   ]}
                 >
-                  <Input placeholder="Có thể dùng chung email cá nhân" />
+                  <Input
+                    placeholder="Có thể dùng chung email cá nhân"
+                    maxLength={50}
+                    showCount
+                  />
                 </Form.Item>
 
                 <Form.Item
@@ -276,7 +279,11 @@ export default function Sm_register() {
                     },
                   ]}
                 >
-                  <Input placeholder="Địa chỉ" />
+                  <Input
+                    placeholder="Địa chỉ trong giấy phép kinh doanh"
+                    maxLength={150}
+                    showCount
+                  />
                 </Form.Item>
 
                 <Form.Item
@@ -304,90 +311,143 @@ export default function Sm_register() {
                   <UploadImg limit={1} type={"card"} />
                 </Form.Item>
 
-                <div className="flex flex-row justify-start gap-8 w-full pl-[156px] ">
-                  <Form.Item
-                    wrapperCol={{
-                      offset: 8,
-                      span: 16,
-                    }}
-                  >
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      icon={<ArrowRightOutlined />}
-                      iconPosition="end"
-                    >
-                      Tiếp tục
-                    </Button>
-                  </Form.Item>
+                <div className="flex flex-row justify-start gap-3 w-full pl-[180px]">
                   <Button
                     type="primary"
+                    htmlType="submit"
                     icon={<ArrowRightOutlined />}
                     iconPosition="end"
-                    onClick={next}
                   >
-                    Bỏ qua
+                    Tiếp tục
                   </Button>
                 </div>
               </Form>
             </div>
           )}
           {current === 2 && (
-            <div className="flex flex-col gap-6 pb-8 px-36">
-              <div className="flex flex-row gap-6 w-full px-16">
-                <p className="w-[300px]">Tên đăng nhập</p>
-                <Input />
-              </div>
-              <div className="flex flex-row gap-6 w-full px-16">
-                <p className="w-[300px]">Mật khẩu</p>
-                <Input.Password
-                  visibilityToggle={{
-                    visible: passwordVisible,
-                    onVisibleChange: setPasswordVisible,
-                  }}
-                />
-              </div>
-              <div className="flex flex-row gap-6 w-full px-16">
-                <p className="w-[300px]">Xác nhận mật khẩu</p>
-                <Input.Password
-                  visibilityToggle={{
-                    visible: passwordVisible,
-                    onVisibleChange: setPasswordVisible,
-                  }}
-                />
-              </div>
-              <div className="flex flex-row gap-6 w-full px-16">
-                <p className="w-[300px]">Email cá nhân</p>
-                <Input />
-              </div>
+            <div className="gap-6 pb-8 px-36">
+              <Form
+                name="basic"
+                labelCol={{
+                  span: 8,
+                }}
+                wrapperCol={{
+                  span: 16,
+                }}
+                style={{
+                  maxWidth: 600,
+                }}
+                initialValues={{
+                  remember: true,
+                }}
+                onFinish={onFinish1}
+                onFinishFailed={onFinishFailed}
+                autoComplete="off"
+              >
+                <Form.Item
+                  label="Hình thức định danh"
+                  name="sm_type_identification"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Hãy chọn hình thức định danh!",
+                    },
+                  ]}
+                >
+                  <Radio.Group>
+                    <Radio value={"CMND"}>Chứng minh nhân dân (CMND)</Radio>
+                    <Radio value={"CCCD"}>Căn cước công dân (CCCD)</Radio>
+                  </Radio.Group>
+                </Form.Item>
 
-              <div className="flex flex-row gap-6 w-full px-16">
-                <p className="w-[300px]">Hình ảnh đại diện</p>
-                <div className="ml-[-140px]">
-                  <UploadImg limit={1} type={"circle"} />
+                {/* <Form.Item
+                  label="Số CCCD / CMND"
+                  name="sm_fullname"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Hãy nhập số cccd / cmnd!",
+                    },
+                  ]}
+                >
+                  <Input placeholder="CCCD / CMND" maxLength={12} showCount />
+                </Form.Item> */}
+                <Form.Item
+                  label="Họ và tên"
+                  name="sm_name"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Hãy chọn hình thức định danh!",
+                    },
+                  ]}
+                >
+                  <Input placeholder="Họ và tên" />
+                </Form.Item>
+
+                <Form.Item
+                  label="Hình chụp của thẻ"
+                  name="sm_iden_pictures"
+                  rules={[
+                    {
+                      required: false,
+                    },
+                  ]}
+                >
+                  <div>
+                    <UploadImg limit={2} type={"card"} />
+                    <p className="text-gray-400">
+                      * Vui lòng chụp rõ mặt trước và sau của thẻ cccd/cmnd.
+                    </p>
+                  </div>
+                </Form.Item>
+
+                <Form.Item
+                  label="Hình chụp đang cầm thẻ"
+                  name="sm_iden_pictures"
+                  rules={[
+                    {
+                      required: false,
+                    },
+                  ]}
+                >
+                  <div>
+                    <UploadImg limit={2} type={"card"} />
+                    <p className="text-gray-400">
+                      * Vui lòng chụp rõ khuôn mặt bạn cùng với thẻ cccd/cmnd
+                      đang cầm trên tay.
+                    </p>
+                  </div>
+                </Form.Item>
+
+                <div className="flex flex-row justify-start gap-3 w-full pl-[180px]">
+                  <Button iconPosition="end" onClick={prev}>
+                    Quay lại
+                  </Button>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    icon={<ArrowRightOutlined />}
+                    iconPosition="end"
+                  >
+                    Tiếp tục
+                  </Button>
                 </div>
-              </div>
-
-              <div className="flex flex-row justify-end gap-6 w-full px-16">
-                <Button
-                  type="primary"
-                  icon={<ArrowRightOutlined />}
-                  iconPosition="end"
-                  onClick={() => next()}
-                >
-                  Tiếp tục
+              </Form>
+            </div>
+          )}
+          {current === 3 && (
+            <div className=" pb-8 px-36 flex flex-col justify-center items-center">
+              <Result
+                status="success"
+                title="Thiết lập tài khoản cửa hàng thành công!"
+                subTitle="Chúng tôi rất vui khi có sự hiện diện của bạn, vui lòng đăng nhập lại để cùng đồng hành với Fluffy Paw nhé."
+              />
+              <Link to={`/login`}>
+                <Button type="primary" icon={<UserSwitchOutlined />}>
+                  Đăng nhập
                 </Button>
-              </div>
-              <div className="gap-6 pb-8 px-36">
-                <Button
-                  type="primary"
-                  icon={<ArrowRightOutlined />}
-                  iconPosition="end"
-                  onClick={() => prev()}
-                >
-                  Quay lại
-                </Button>
-              </div>
+              </Link>
             </div>
           )}
         </div>

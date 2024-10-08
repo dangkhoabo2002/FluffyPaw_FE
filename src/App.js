@@ -23,6 +23,8 @@ import SMDashboard from "./screen/Sm_dasboard";
 import SMStaffManagement from "./screen/Sm_listofstaff";
 import SMProfile from "./screen/Sm_profile";
 import SMStores from "./screen/Sm_listofstores";
+import SMStoreDetail from "./screen/Sm_listofstores";
+import SMServices from "./screen/Sm_listofservice";
 import SMWallet from "./screen/Sm_wallet";
 
 // Staff
@@ -90,13 +92,20 @@ function App() {
             path="/store_manager/sm_profile"
             element={<SMProfile />}
           ></Route>
+          <Route path="/store_manager/list_of_store" element={<SMStores />}>
+            <Route
+              path="/store_manager/list_of_store/:storeId"
+              element={<SMStores />}
+            ></Route>
+          </Route>
           <Route
-            path="/store_manager/list_of_store"
-            element={<SMStores />}
+            path="/store_manager/list_of_service"
+            element={<SMServices />}
           ></Route>
           <Route path="/store_manager/sm_wallet" element={<SMWallet />}></Route>
         </Route>
         <Route path="/sm_register" element={<SmRegister />}></Route>
+        <Route path="/sm_login" element={<SmRegister />}></Route>
         <Route path="/services" element={<Services />}></Route>
         <Route path="/service_booking" element={<ServiceBooking />}></Route>
         <Route

@@ -169,7 +169,7 @@
 }
 
 .Btn:hover svg,
-.low_Btn:hover,
+.low_Btn:hover .low_svg,
 .cancel_Btn:hover svg {
   right: 43%;
   margin: 0;

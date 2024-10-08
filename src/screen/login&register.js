@@ -28,6 +28,11 @@ import { jwtDecode } from "jwt-decode";
 
 const { Title } = Typography;
 
+const isValidPhoneNumber = (phoneNumber) => {
+  const phoneRegex = /^(03|05|07|08|09)\d{8}$/;
+  return phoneRegex.test(phoneNumber);
+};
+
 export default function Login() {
   const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = (type) => {
@@ -80,8 +85,8 @@ export default function Login() {
 
   // Check valid phone
   const isValidPhoneNumber = (phoneNumber) => {
-    const phoneNumberRegex = /^\+?[0-9]{9,11}$/;
-    return phoneNumberRegex.test(phoneNumber);
+    const regex = /^(03|05|07|08|09)\d{8}$/;
+    return regex.test(phoneNumber);
   };
 
   // Check valid fullname
@@ -90,7 +95,7 @@ export default function Login() {
     const nameRegex = /^[a-zA-ZÀ-ỹ\s\-]+(?:\s[a-zA-ZÀ-ỹ\s\-]+)*$/;
     return nameRegex.test(fullname);
   };
-
+  const [afterOtp, setAfterOtp] = useState(true);
   const handleSendOTP = (e) => {
     if (
       register.user_phone === null ||
@@ -117,7 +122,7 @@ export default function Login() {
       //   .catch((error) => {
       //     console.error(error);
       //   });
-
+      setAfterOtp(false);
       setSubmitGmail(true);
     }
   };
@@ -136,6 +141,7 @@ export default function Login() {
 
   const [isAnimating, setIsAnimating] = useState(false);
   const handleRegisterClick = () => {
+    setStep(0);
     setRegister({
       user_phone: "",
       user_username: "",
@@ -146,6 +152,7 @@ export default function Login() {
       user_email: "",
       user_gender: "",
     });
+    setBirthday("");
     if (isAnimating === false) {
       setIsAnimating(true);
     } else setIsAnimating(false);
@@ -215,18 +222,6 @@ export default function Login() {
   };
   //------------------
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
-
-  // ---- DOB
-  const onChangeDate = (date, dateString) => {
-    setBirthday(dateString);
-  };
-
   // ---- Sex of User
   const [sex, setSex] = useState(1);
   const onChangeSex = (e) => {
@@ -273,7 +268,32 @@ export default function Login() {
               JSON.stringify(myDecodedToken)
             );
             localStorage.setItem("undecode_access_token", dataLog.data);
-            navigate("/");
+            localStorage.setItem(
+              "account_role",
+              myDecodedToken[
+                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+              ]
+            );
+
+            if (
+              myDecodedToken[
+                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+              ] === "StoreManager"
+            ) {
+              navigate("/store_manager/dashboard");
+            } else if (
+              myDecodedToken[
+                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+              ] === "PetOwner"
+            ) {
+              navigate("/");
+            } else if (
+              myDecodedToken[
+                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+              ] === "Staff"
+            ) {
+              navigate("/store/staff_dashboard");
+            }
             setIsLoggin(false);
           }
         })
@@ -301,47 +321,70 @@ export default function Login() {
     user_email: "",
     user_gender: "",
   });
-  const [birthday, setBirthday] = useState("");
-
+  const [birthday, setBirthday] = useState();
+  // ---- DOB
+  const onChangeDate = (date, dateString) => {
+    setBirthday(dateString);
+  };
   const onChangeRegister = (prop) => (event) => {
     setRegister({ ...register, [prop]: event.target.value });
-    console.log(register);
   };
 
   // REGISTER API
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
+    console.log(birthday);
     setIsLoading(true);
-    axios
-      .post(
-        "https://fluffypaw.azurewebsites.net/api/Authentication/RegisterPO",
-        {
-          phone: register.user_phone,
-          userName: register.user_username,
-          password: register.user_password,
-          comfirmPassword: register.user_confirm_password,
-          email: register.user_email,
-          fullName: register.user_name,
-          address: register.user_location,
-          dob: birthday,
-          gender: register.user_gender,
-        }
-      )
-      .then((response) => {
-        setIsLoading(false);
+    const today = new Date();
+    const birthdayDate = new Date(birthday);
+
+    // CHECK DATE
+    if (
+      birthdayDate.getDate() === today.getDate() &&
+      birthdayDate.getMonth() === today.getMonth() &&
+      birthdayDate.getFullYear() === today.getFullYear()
+    ) {
+      openNotificationWithIcon("Ngày sinh không được trùng với ngày hiện tại.");
+      setIsLoading(false);
+    } else {
+      try {
+        const response = await axios.post(
+          "https://fluffypaw.azurewebsites.net/api/Authentication/RegisterPO",
+          {
+            phone: register.user_phone,
+            userName: register.user_username,
+            password: register.user_password,
+            comfirmPassword: register.user_confirm_password,
+            email: register.user_email,
+            fullName: register.user_name,
+            address: register.user_location,
+            dob: birthday,
+            gender: register.user_gender,
+          }
+        );
 
         if (response.status === 200) {
           console.log(response.data);
           openSuccess("register_success");
           handleRegisterClick();
+          setIsLoading(false);
         }
-      })
-      .catch((error) => {
-        const errMessage = error.response.data.message;
-        openNotificationWithIcon(errMessage);
-        console.error(error);
+      } catch (error) {
         setIsLoading(false);
-      });
+        console.log(error);
+        const errMessage = error.response.data?.message;
+        if (errMessage === undefined) {
+          openNotificationWithIcon("Lỗi không xác định !");
+          console.error(error);
+          setIsLoading(false);
+        } else {
+          openNotificationWithIcon(errMessage);
+          setIsLoading(false);
+        }
+
+        setIsLoading(false);
+      }
+    }
   };
 
   // ---------- API Forgot Password -----------
@@ -418,7 +461,7 @@ export default function Login() {
             >
               <h1 className="text-4xl">Chào mừng trở lại</h1>
               <p>Hãy điền thông tin đăng nhập nhé!</p>
-              <div className="content flex flex-col gap-6">
+              <div className="content flex flex-col gap-5">
                 <div className="username">
                   <Input
                     size="large"
@@ -472,17 +515,22 @@ export default function Login() {
                     Quên mật khẩu.
                   </button>
                   <Divider
-                    style={{ borderColor: "#7cb305", fontFamily: "Itim" }}
+                    style={{
+                      borderColor: "#7cb305",
+                      fontFamily: "Itim",
+                      height: "12px",
+                    }}
                     plain
                   >
-                    <Link to={`/`} className="hover:text-pink-400">
-                      Fluffy Paw
-                    </Link>{" "}
+                    Fluffy Paw
                   </Divider>
                 </div>
                 <Button className="register" onClick={handleRegisterClick}>
                   Đăng ký
                 </Button>
+                <Link to={`/sm_register`} className="hover:text-pink-400">
+                  <Button className="register">Đăng ký cửa hàng</Button>
+                </Link>
               </div>
             </div>
             {/* ------------------- Modal Forgot Password ----------------------- */}
@@ -645,7 +693,7 @@ export default function Login() {
                   <div className="flex flex-col text-left gap-6">
                     <Button
                       type="primary"
-                      // disabled={blockButton}
+                      disabled={afterOtp}
                       onClick={() => nextStep(1)}
                     >
                       Tiếp tục
@@ -764,7 +812,7 @@ export default function Login() {
                   <div className="line1">
                     <div className="flex flex-row justify-between items-center">
                       <Title level={5} className="pb-1">
-                        Thông tin có thể bỏ qua.
+                        Thông tin của bạn.
                       </Title>
                       <Button
                         className="w-10 mt-[-13px]"
@@ -785,6 +833,7 @@ export default function Login() {
                     <div className="flex flex-row justify-between items-center">
                       <DatePicker
                         onChange={onChangeDate}
+                        showNow={false}
                         placeholder="Ngày sinh"
                       />
                       <Radio.Group
