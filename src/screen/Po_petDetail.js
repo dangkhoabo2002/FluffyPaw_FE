@@ -21,7 +21,7 @@ export default function Profile() {
     setLoadingApi(true);
     try {
       const response = await axios.get(
-        `https://fluffypaw.azurewebsites.net/api/Pet/GetPet?petId=${petId}`,
+        `https://fluffypaw.azurewebsites.net/api/Pet/GetPet/${petId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem(
@@ -83,10 +83,10 @@ export default function Profile() {
               <PetProfile petData={detail} />
             </Tabs.TabPane>
             <Tabs.TabPane
-              tab={<h1 className="text-[20px]">Hồ sơ bệnh lý - Đã nhập</h1>}
+              tab={<h1 className="text-[20px]">Hồ sơ bệnh lý </h1>}
               key="3"
             >
-              <PetVaccine />
+              <PetVaccine petData={detail} />
             </Tabs.TabPane>
             <Tabs.TabPane
               tab={<h1 className="text-[20px]">Nhắc nhở</h1>}

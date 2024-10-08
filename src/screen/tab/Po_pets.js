@@ -7,8 +7,8 @@ import FormModal from "./Po_addPet_modal";
 import "./Po_pets.css";
 
 export default function Po_pets(petList) {
-  const dogs = petList.petList?.filter((item) => item.petCategory === "Dog");
-  const cats = petList.petList?.filter((item) => item.petCategory === "Cat");
+  const dogs = petList.petList?.filter((item) => item.petCategoryId === 1);
+  const cats = petList.petList?.filter((item) => item.petCategoryId === 2);
   // --------- Modal --------------
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -37,8 +37,18 @@ export default function Po_pets(petList) {
     <>
       <div className="flex flex-col px-20 pt-12">
         <div className="py-10 flex flex-row justify-between items-center">
-          {dogs?.length > 0 && <h1>Chó</h1>}
-          {petList.petList?.length > 0 && (
+          {dogs?.length > 0 ? (
+            <h1>Chó</h1>
+          ) : (
+            <h1 className="opacity-0 w-5">Chó</h1>
+          )}
+          {petList.petList && petList.petList?.length > 4 ? (
+            <>
+              <p className="text-black">
+                Bạn đã sỡ hữu số lượng thú cưng tối đa
+              </p>
+            </>
+          ) : (
             <div class="flex rounded border-b-2 border-grey-dark overflow-hidden bg-[#FDCEDF] ">
               <div class="bg-[#F2BED1] shadow-border p-3">
                 <div class="w-6 h-4">
@@ -51,18 +61,12 @@ export default function Po_pets(petList) {
                   </svg>
                 </div>
               </div>
-              {petList && petList?.length < 5 ? (
-                <button
-                  onClick={showModal}
-                  class="addPet block text-black shadow-border bg-blue text-sm py-3 px-4 font-sans tracking-wide font-bold items-center"
-                >
-                  Thêm thú cưng mới
-                </button>
-              ) : (
-                <p className="text-gray-400">
-                  Bạn đã sỡ hữu số lượng thú cưng tối đa
-                </p>
-              )}
+              <button
+                onClick={showModal}
+                class="addPet block text-black shadow-border bg-blue text-sm py-3 px-4 font-sans tracking-wide font-bold items-center"
+              >
+                Thêm thú cưng mới
+              </button>
             </div>
           )}
 
@@ -85,7 +89,9 @@ export default function Po_pets(petList) {
                   </div>
 
                   <div className="flex flex-start flex-col">
-                    <p>Sở thích: Gặm cỏ</p>
+                    <p className="truncate w-[220px]">
+                      Sở thích: {dog.behaviorCategory}
+                    </p>
                     <p>Giống: {dog.sex === "Male" ? "Đực" : "Cái"}</p>
                     <p>Cân nặng: {dog.weight}kg</p>
                     {dog.isNeuter === true ? (
@@ -121,7 +127,7 @@ export default function Po_pets(petList) {
                   </div>
 
                   <div className="flex flex-start flex-col">
-                    <p>Sở thích: Gặm cỏ</p>
+                    <p>Sở thích: {cat.behaviorCategory}</p>
                     <p>Giống: {cat.sex === "Male" ? "Đực" : "Cái"}</p>
                     <p>Cân nặng: {cat.weight}kg</p>
                     {cat.isNeuter === true ? (
@@ -150,8 +156,9 @@ export default function Po_pets(petList) {
         width={1200}
         footer={(_, {}) => (
           <>
-            <Button type="primary">Thêm thú cưng</Button>
-            <Button onClick={handleCancel}>Hủy bỏ</Button>
+            <div className="pr-40">
+              <Button onClick={handleCancel}>Hủy bỏ</Button>
+            </div>
           </>
         )}
       >

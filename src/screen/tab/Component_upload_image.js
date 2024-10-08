@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
-const App = ({ limit, type }) => {
+const App = ({ limit, type, name }) => {
   const [fileList, setFileList] = useState([]);
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
     console.log(fileList);
+
   };
   const onPreview = async (file) => {
     let src = file.url;
@@ -29,7 +30,7 @@ const App = ({ limit, type }) => {
         onChange={onChange}
         onPreview={onPreview}
       >
-        {fileList.length < limit && "+ Upload"}
+        {fileList.length < limit && "+ Tải lên"}
       </Upload>
     </ImgCrop>
   );

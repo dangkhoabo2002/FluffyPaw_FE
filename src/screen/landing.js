@@ -14,8 +14,9 @@ import catIcon from "../asset/catIcon.png";
 import FormModal from "../screen/tab/Po_addPet_modal";
 
 export default function Landing() {
+  const accountRole = localStorage.getItem("account_role");
   // Ask add pet after login
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCancel = () => {
@@ -36,7 +37,7 @@ export default function Landing() {
   );
 
   // GET PET LIST
-  const [petList, setPetList] = useState();
+  const [petList, setPetList] = useState([]);
   const [loadingApi, setLoadingApi] = useState();
   const handleGetPetList = async () => {
     try {
@@ -50,18 +51,23 @@ export default function Landing() {
           },
         }
       );
-      setPetList(response.data.data);
-      console.log(response.data.data);
-      setLoadingApi(false);
+
+      if (response.status === 200) {
+        const petData = response.data.data;
+        setPetList(petData);
+
+        setLoadingApi(false);
+      }
     } catch (err) {
-      console.log(err.message);
-      setLoadingApi(false);
+      console.log(err.response.request.status);
+      if (err.response.request.status === 404) setOpen(true);
+      setLoadingApi(true);
+      console.log(err);
     }
   };
   const openAddPet = () => {
     setOpen(false);
     setIsModalOpen(true);
-    console.log(petList);
   };
   useEffect(() => {
     handleGetPetList();
@@ -78,48 +84,60 @@ export default function Landing() {
       <div className="container">
         <div className="petMenu py-10">
           {/* Owner Pet */}
-          <h1 className="titleSection">Thú cưng của bạn</h1>
-          <div className="flex flex-row flex-wrap gap-8 py-10">
-            {petList &&
-              petList?.map((pet) => (
-                <Link to={`/po_profile/po_petdetail/${pet.id}`} key={pet.id}>
-                  <div className="existPet gap-3">
-                    <img
-                      alt="dogIcon"
-                      src={pet.petCategory === "Cat" ? dogIcon : catIcon}
-                    />
-                    <span className="flex flex-col py-6">
-                      <h2 className="w-full font-bold text-xl">{pet?.name}</h2>
-                      <Popover
-                        content={content}
-                        title="Đặc điểm:"
-                        trigger="hover"
-                      >
-                        <p className="w-[100px] truncate text-[#999999] text-[14px]">
-                          {pet.behaviorCategory}
-                        </p>
-                      </Popover>
-                    </span>
-                  </div>
-                </Link>
-              ))}
+          {accountRole === "PetOwner" && (
+            <>
+              {" "}
+              <h1 className="titleSection">Thú cưng của bạn</h1>
+              <div className="flex flex-row flex-wrap gap-8 py-10">
+                {petList &&
+                  petList?.map((pet) => (
+                    <Link
+                      to={`/po_profile/po_petdetail/${pet.id}`}
+                      key={pet.id}
+                    >
+                      <div className="existPet gap-3">
+                        <img
+                          alt="dogIcon"
+                          src={pet.petCategoryId === 1 ? dogIcon : catIcon}
+                        />
+                        <span className="flex flex-col py-6">
+                          <h2 className="w-full font-bold text-xl">
+                            {pet?.name}
+                          </h2>
+                          <Popover
+                            content={content}
+                            title="Đặc điểm:"
+                            trigger="hover"
+                          >
+                            <p className="w-[100px] truncate text-[#999999] text-[14px]">
+                              {pet.behaviorCategory}
+                            </p>
+                          </Popover>
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
 
-            {petList && petList?.length < 5 ? (
-              <button onClick={openAddPet}>
-                <div className="addPetSection">
-                  <PlusCircleIcon class="h-20 w-20 text-[#F2BDCB] hover:text-[#f7a6bb]" />
-                  <span className="flex flex-col py-6 pl-4">
-                    <h2 className="w-full font-bold text-xl">Thêm thú cưng</h2>
-                    <p className="w-full text-[#999999]  text-[12px]">
-                      Hiện sở hữu {petList?.length} thú cưng
-                    </p>
-                  </span>
-                </div>
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
+                {petList && petList?.length < 5 ? (
+                  <button onClick={openAddPet}>
+                    <div className="addPetSection">
+                      <PlusCircleIcon class="h-20 w-20 text-[#F2BDCB] hover:text-[#f7a6bb]" />
+                      <span className="flex flex-col py-6 pl-4">
+                        <h2 className="w-full font-bold text-xl">
+                          Thêm thú cưng
+                        </h2>
+                        <p className="w-full text-[#999999]  text-[12px]">
+                          Hiện sở hữu {petList?.length} thú cưng
+                        </p>
+                      </span>
+                    </div>
+                  </button>
+                ) : (
+                  ""
+                )}
+              </div>
+            </>
+          )}
 
           {/* Carousel */}
 

@@ -16,10 +16,6 @@ export default function Po_profile() {
     handleGetPetList();
   }, []);
 
-  const test = () => {
-    console.log(poProfile);
-  };
-
   // Load information
   const handleGetPoInformation = async () => {
     setLoadingApi(true);
@@ -35,8 +31,9 @@ export default function Po_profile() {
         }
       );
       setPoProfile(response.data.data);
-
-      setLoadingApi(false);
+      setTimeout(() => {
+        setLoadingApi(false);
+      }, 2000);
     } catch (err) {
       console.log(err.message);
       setLoadingApi(false);
@@ -45,6 +42,7 @@ export default function Po_profile() {
 
   // Load pet list
   const [petList, setPetList] = useState();
+  const [listEmp, setListEmp] = useState(false);
   const handleGetPetList = async () => {
     try {
       const response = await axios.get(
@@ -57,11 +55,14 @@ export default function Po_profile() {
           },
         }
       );
-      setPetList(response.data.data);
-      console.log(response.data.data);
-      setLoadingApi(false);
+      if (response.status === 200) {
+        setPetList(response.data.data);
+        setTimeout(() => {
+          setLoadingApi(false);
+        }, 2000);
+      }
     } catch (err) {
-      console.log(err.message);
+      if (err.response.request.status === 404) setListEmp(true);
       setLoadingApi(false);
     }
   };
@@ -91,9 +92,8 @@ export default function Po_profile() {
                 <img
                   alt="avatar"
                   src={
-                    poProfile?.account.avatar
-                      ? poProfile?.account.avatar
-                      : "https://www.usatoday.com/gcdn/presto/2023/07/10/USAT/aee85bb0-b58f-4d28-bc08-f0e68d79a230-cat_years.png?crop=2949,1922,x432,y212"
+                    poProfile?.account?.avatar ||
+                    "https://www.usatoday.com/gcdn/presto/2023/07/10/USAT/aee85bb0-b58f-4d28-bc08-f0e68d79a230-cat_years.png?crop=2949,1922,x432,y212"
                   }
                 />
               )}
@@ -105,7 +105,7 @@ export default function Po_profile() {
                   </>
                 ) : (
                   <>
-                    <h1>{poProfile?.fullName}</h1>
+                    <h1>{poProfile?.fullName}</h1>{" "}
                     <p className="text-gray-400">Người sở hữu thú cưng</p>
                   </>
                 )}
@@ -126,15 +126,7 @@ export default function Po_profile() {
                   <Skeleton active />
                 </div>
               ) : (
-                <PetTab
-                  petList={
-                    loadingApi === true &&
-                    petList !== null &&
-                    petList !== undefined
-                      ? ""
-                      : petList
-                  }
-                />
+                <PetTab petList={petList} />
               )}
             </Tabs.TabPane>
             <Tabs.TabPane tab="Thông tin cá nhân" key="tab2">

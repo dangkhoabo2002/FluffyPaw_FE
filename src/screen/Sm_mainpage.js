@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   HistoryOutlined,
   HomeOutlined,
@@ -9,9 +9,10 @@ import {
   WalletIcon,
   BellIcon,
   UserCircleIcon,
+  ArrowLeftStartOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 
-import { Menu, Alert } from "antd";
+import { Menu, Alert, Button, Modal } from "antd";
 import Logo from "../component/petowner/logo.png";
 import { Outlet, useNavigate, Link } from "react-router-dom";
 
@@ -87,9 +88,29 @@ const SmMainPage = () => {
       case "6":
         navigate("/store_manager/list_of_store");
         break;
+      case "7":
+        navigate("/store_manager/list_of_service");
+        break;
     }
   };
 
+  // LOGOUT
+  const handleLogout = () => {
+    navigate("/login");
+    sessionStorage.clear();
+    localStorage.clear();
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div className="flex flex-col">
       <div className="flex flex-row sticky top-0 left-0 right-0 h-auto justify-between items-center px-7 py-2 border-b-2 bg-white shadow-md z-10">
@@ -103,6 +124,9 @@ const SmMainPage = () => {
           <Link to={`/store_manager/sm_profile`}>
             <UserCircleIcon class="h-7 w-7 text-gray-500" />
           </Link>
+          <Button className="border-none p-0 mt-[-2px]" onClick={showModal}>
+            <ArrowLeftStartOnRectangleIcon class="h-7 w-7 text-gray-500 transform rotate-180" />
+          </Button>
         </div>
       </div>
       <div className="flex flex-row h-screen fixed top-[82px] left-0 bottom-0 z-10">
@@ -120,6 +144,24 @@ const SmMainPage = () => {
         />
       </div>
       <Outlet />
+      <Modal
+        title="Đăng xuất"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={[
+          <>
+            <Button
+              className="bg-pink-200 hover:bg-pink-300"
+              onClick={handleCancel}
+            >
+              Quay lại
+            </Button>
+            <Button onClick={handleLogout}>Đăng xuất</Button>
+          </>,
+        ]}
+      >
+        <p>Bạn chắn chắn muốn đăng xuất chứ</p>
+      </Modal>
     </div>
   );
 };
